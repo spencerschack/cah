@@ -1,0 +1,18 @@
+<div class="players-list--header">
+  {{#link-to "game.play.index" class="players-list--back"}}
+    <span class="players-list--back--icon">&times;</span>
+    Close
+  {{/link-to}}
+</div>
+<ul class="players-list--list">
+  {{#each memberships as |membership|}}
+    <li class="players-list--player">
+      <span class="players-list--player--name">
+        {{membership.player.name}}
+      </span>
+      <span class="players-list--player--score">
+        {{membership.score}}
+      </span>
+    </li>
+  {{/each}}
+</ul>

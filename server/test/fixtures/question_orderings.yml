@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  question: 
+  game: 
+  position: 1
+
+two:
+  question: 
+  game: 
+  position: 1

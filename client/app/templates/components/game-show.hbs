@@ -1,0 +1,53 @@
+{{#link-to "game.play.players" class="game-show--players"}}
+  {{playerMembership.player.name}}
+  <span class="game-show--players--count">
+    {{playerMembership.score}}
+  </span>
+{{/link-to}}
+<div class="game-show--czar">
+  <span class="game-show--czar--badge">czar</span>
+  {{game.player.name}}
+</div>
+<div class="game-show--question">
+  {{{wrap-underscores game.question.text class="game-show--question--underscore"}}}
+</div>
+{{#if isCzar}}
+  {{#if onlyPlayer}}
+    You're the only one here! Invite some players: ...
+  {{else}}
+    {{#if allSubmitted}}
+      <ul class="game-show--hand">
+        {{#each submitted as |membership|}}
+          <li class="game-show--hand--card">
+            <a href="" {{action "pick" membership}}>
+              {{{membership.firstAnswer.text}}}
+            </a>
+          </li>
+        {{/each}}
+      </ul>
+    {{else}}
+      <div class="game-show--submitted">
+        <span class="game-show--submitted--badge">
+          {{~submitted.length}}/{{submittable.length~}}
+        </span>
+        submitted
+      </div>
+    {{/if}}
+  {{/if}}
+{{else}}
+  <div class="game-show--submissions is-pick-{{game.question.pick}}">
+    {{#if playerMembership.firstAnswer}}
+      <div class="game-show--submission">
+        {{playerMembership.firstAnswer.text}}
+      </div>
+    {{/if}}
+  </div>
+  <div class="game-show--hand">
+    {{#each game.answers as |answer|}}
+      <a href="" {{action "submit" answer}} class="game-show--hand--card">
+        {{{answer.text}}}
+      </a>
+    {{/each}}
+  </div>
+{{/if}}
+

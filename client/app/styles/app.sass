@@ -1,0 +1,148 @@
+body
+  margin: 0
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif
+  font-weight: 600
+  -webkit-font-smoothing: antialiased
+  background: black
+
+a
+  text-decoration: none
+  -webkit-tap-highlight-color: transparent
+  -webkit-touch-callout: none
+  touch-action: manipulation
+
+ul
+  list-style: none
+  margin: 0
+  padding: 0
+
+.game-show--submitted
+  width: 100%
+  position: fixed
+  top: 70vh
+  text-align: center
+  color: white
+
+.game-show--submitted--badge
+  height: 20px
+  padding: 0 5px
+  background: white
+  color: black
+  border-radius: 10px
+  text-align: center
+
+.game-show--question
+  width: 100%
+  position: fixed
+  top: 100px
+  box-sizing: border-box
+  padding: 0 20px
+  font-size: 150%
+  color: white
+
+.game-show--question--underscore
+  width: 100px
+  display: inline-block
+  color: transparent
+  border-bottom: 1px solid white
+
+.game-show--submissions
+  position: fixed
+
+.game-show--submission
+  width: 50vw
+  height: 60vw
+  position: absolute
+  top: 10vh
+  box-sizing: border-box
+  padding: 10px 15px
+  background: white
+  border-radius: 5px
+  font-size: 1.2rem
+  transform: scale(0.5, 0.5) rotate(-10deg)
+
+.game-show--hand
+  width: 100vw
+  height: 100vh
+  padding-top: 20vh
+  position: fixed
+  top: 0
+  z-index: 2
+  white-space: nowrap
+  overflow-x: scroll
+  -webkit-overflow-scrolling: touch
+  font-size: 0
+
+.game-show--hand--card
+  width: 50vw
+  height: 60vw
+  display: inline-block
+  box-sizing: border-box
+  margin: 0 -10px
+  padding: 10px 15px
+  background: white
+  font-size: 1.2rem
+  border-radius: 5px
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5)
+  color: black
+  white-space: normal
+  vertical-align: top
+
+  &:first-child
+    margin-left: 25vw
+
+  &:last-child
+    margin-right: 25vw
+
+.game-show--players,
+.game-show--czar
+  padding: 20px
+  position: fixed
+  top: 0
+  z-index: 1
+  color: white
+
+.game-show--players
+  display: inline-block
+  right: 0
+
+.game-show--czar--badge
+  height: 20px
+  padding: 0 5px
+  background: white
+  color: black
+  border-radius: 10px
+  display: inline-block
+  line-height: 18px
+
+.game-show--players--count
+  width: 20px
+  height: 20px
+  background: white
+  color: black
+  border-radius: 50%
+  display: inline-block
+  text-align: center
+
+.players-list--header
+  height: 45px
+  line-height: 40px
+  text-align: right
+
+.players-list--back
+  padding: 0 20px
+  display: inline-block
+
+.players-list--back--icon
+  font-size: 140%
+
+.players-list--list
+  background: white
+  color: black
+  border-top-right-radius: 10px
+  border-top-left-radius: 10px
+
+.players-list--player
+  margin-left: 20px
+  padding: 10px 20px 10px 0
+  border-bottom: 1px solid #DDD
