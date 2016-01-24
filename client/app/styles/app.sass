@@ -1,3 +1,5 @@
+@import "bower_components/font-awesome/scss/font-awesome"
+
 body
   margin: 0
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif
@@ -16,28 +18,83 @@ ul
   margin: 0
   padding: 0
 
-.game-show--submitted
+input,
+button
+  font-family: inherit
+  font-weight: inherit
+  outline: none
+
+.game-show--share
   width: 100%
+  color: gray
   position: fixed
-  top: 70vh
+  bottom: 3vh
   text-align: center
+  font-size: 4vw
+  line-height: 6vw
+
+.game-show--share--icon
+  margin-top: 3vh
+
+.game-join,
+.register,
+.player-lobby
+  height: 85vh
+  display: flex
+  align-items: center
+
+.game-join--container,
+.register--container,
+.player-lobby--container
+  width: 100%
+  max-width: 400px
+  margin: 0 auto
+
+.game-join--title,
+.register--title,
+.player-lobby--title
+  margin-bottom: 15px
+  padding: 15px
+  color: white
+  font-size: 1.2rem
+
+.player-registration,
+.game-create
+  padding: 0 15px
+  margin-bottom: 10px
   color: white
 
-.game-show--submitted--badge
-  height: 20px
-  padding: 0 5px
+.player-registration--name
+  width: 100%
+  box-sizing: border-box
+  border: 0
+  border-radius: 5px
+  padding: 10px 15px
+  font-size: 1.2rem
+
+.player-registration--submit
+  background: none
+  color: white
+
+.game-create--button
   background: white
-  color: black
-  border-radius: 10px
-  text-align: center
+  border-radius: 5px
+
+.player-registration--submit,
+.game-create--button
+  width: 100%
+  margin-bottom: 10px
+  padding: 10px 0
+  border: none
+  font-size: 1.2rem
 
 .game-show--question
   width: 100%
   position: fixed
-  top: 100px
+  top: 75px
   box-sizing: border-box
   padding: 0 20px
-  font-size: 150%
+  font-size: 6.5vw
   color: white
 
 .game-show--question--underscore
@@ -47,52 +104,87 @@ ul
   border-bottom: 1px solid white
 
 .game-show--submissions
+  width: 100vw
+  height: 50vh
   position: fixed
+  bottom: 0
 
 .game-show--submission
-  width: 50vw
-  height: 60vw
-  position: absolute
-  top: 10vh
-  box-sizing: border-box
-  padding: 10px 15px
+  width: 20vw
+  height: 24vw
+  border-radius: 3px
+  text-align: center
+  line-height: 24vw
+  font-size: 3.0rem
   background: white
-  border-radius: 5px
-  font-size: 1.2rem
-  transform: scale(0.5, 0.5) rotate(-10deg)
+  position: absolute
+  top: 50%
+  left: 50%
+  margin: -10vw 0 0 -12vw
+  transition: transform 0.5s
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3)
+
+$game-show--hand--radius: 200vw
+$game-show--hand--angle: 0.2rad
 
 .game-show--hand
-  width: 100vw
-  height: 100vh
-  padding-top: 20vh
+  width: 55vw
+  height: 65vw
   position: fixed
-  top: 0
-  z-index: 2
-  white-space: nowrap
-  overflow-x: scroll
-  -webkit-overflow-scrolling: touch
-  font-size: 0
+  top: 60vh
+  left: 22.5vw
+  z-index: 4
+  transition: top 0.5s
+
+  &.is-touching
+    transition: none
+
+  &.has-submitted
+    top: 100vh
+
+.game-show--hand--choice
+  width: 55vw
+  height: 65vw
+  position: absolute
+  transition: transform 0.25s
+
+  .game-show--hand.is-touching &
+    transition: none
+
+  &.is-submitted
+    transform: translateY(-150vh)
+    transition-duration: 0.5s
+
+  &.is-bouncing
+    animation: bounce 0.65s
+
+    @keyframes bounce
+      from, 20%, 53%, 80%, to
+        animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000)
+        top: 0
+
+      40%, 43%
+        animation-timing-function: cubic-bezier(0.755, 0.050, 0.855, 0.060)
+        top: -50px
+
+      70%
+        animation-timing-function: cubic-bezier(0.755, 0.050, 0.855, 0.060)
+        top: -25px
+
+      90%
+        top: -7px
 
 .game-show--hand--card
-  width: 50vw
-  height: 60vw
-  display: inline-block
+  width: 55vw
+  height: 65vw
+  position: absolute
   box-sizing: border-box
-  margin: 0 -10px
-  padding: 10px 15px
+  padding: 3vw 4vw
   background: white
-  font-size: 1.2rem
-  border-radius: 5px
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5)
+  border-radius: 1.5vw
+  box-shadow: 0 0 5vw rgba(0, 0, 0, 0.3)
   color: black
-  white-space: normal
-  vertical-align: top
-
-  &:first-child
-    margin-left: 25vw
-
-  &:last-child
-    margin-right: 25vw
+  font-size: 5vw
 
 .game-show--players,
 .game-show--czar
@@ -124,25 +216,33 @@ ul
   display: inline-block
   text-align: center
 
-.players-list--header
-  height: 45px
-  line-height: 40px
-  text-align: right
+.players-list
+  color: white
+  font-size: 1.2rem
 
 .players-list--back
-  padding: 0 20px
+  position: absolute
+  top: 0
+  right: 0
+  padding: 5px 20px
   display: inline-block
-
-.players-list--back--icon
-  font-size: 140%
-
-.players-list--list
-  background: white
-  color: black
-  border-top-right-radius: 10px
-  border-top-left-radius: 10px
+  font-size: 2.0rem
+  color: white
 
 .players-list--player
   margin-left: 20px
-  padding: 10px 20px 10px 0
-  border-bottom: 1px solid #DDD
+  margin: 20px
+
+.players-list--player--score
+  float: left
+  margin-right: 10px
+  min-width: 25px
+  box-sizing: border-box
+  height: 25px
+  padding: 0 5px
+  background: white
+  color: black
+  border-radius: 12.5px
+  display: inline-block
+  line-height: 23px
+  text-align: center

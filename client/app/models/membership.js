@@ -1,6 +1,8 @@
 import Model from 'ember-data/model';
 import attr from 'ember-data/attr';
-import {belongsTo} from 'ember-data/relationships';
+import computed from 'ember-computed';
+import get from 'ember-metal/get';
+import {belongsTo, hasMany} from 'ember-data/relationships';
 
 export default Model.extend({
 
@@ -8,8 +10,6 @@ export default Model.extend({
 
   game: belongsTo({inverse: 'memberships', async: false}),
   player: belongsTo({async: false}),
-  firstAnswer: belongsTo('answer', {async: false}),
-  secondAnswer: belongsTo('answer', {async: false}),
-  thirdAnswer: belongsTo('answer', {async: false})
+  answers: hasMany({async: false})
   
 });

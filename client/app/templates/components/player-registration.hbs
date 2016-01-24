@@ -1,5 +1,4 @@
-Enter a name:
 <form {{action "submit" name on="submit"}}>
-  {{input value=name}}
-  <input type="submit" />
+  {{input value=name placeholder="Name" autocomplete="off" autocorrect="off" autocapitalize="off" class="player-registration--name"}}
+  <input type="submit" class="player-registration--submit" />
 </form>

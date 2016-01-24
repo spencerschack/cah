@@ -1,7 +1,7 @@
 class Game < ApplicationRecord
 
   FULL_INCLUDES = [:answers, :question,
-    memberships: [:player, :first_answer, :second_answer, :third_answer]]
+    memberships: [:player, :answers]]
 
   belongs_to :membership
   has_many :memberships, -> { order(:id) }

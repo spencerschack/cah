@@ -4,6 +4,8 @@ import service from 'ember-service/inject';
 
 export default Component.extend({
 
+  classNames: ['player-registration'],
+
   store: service(),
 
   // attrs

@@ -35,6 +35,10 @@ class GameChannel < ApplicationCable::Channel
         Game.transaction do
           picked_membership.increment :score
           picked_membership.save!
+          answer_ids = game.memberships.flat_map{|m| [m.first_answer_id, m.second_answer_id, m.third_answer_id]}.compact
+          game.answer_orderings << answer_ids.map do |id|
+            AnswerOrdering.new(answer_id: id, pile: 'discard').reposition
+          end
           game.memberships.each do |m|
             m.update!(first_answer: nil, second_answer: nil, third_answer: nil)
           end
@@ -67,7 +71,7 @@ class GameChannel < ApplicationCable::Channel
 
   def self.membership_changed membership
     broadcast_json membership.game, membership,
-      include: 'player,first_answer,second_answer,third_answer'
+      include: 'player,answers'
   end
   
 end

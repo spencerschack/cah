@@ -6,8 +6,9 @@ module Ordering
     enum pile: {draw: 'draw', discard: 'discard'}
   end
 
-  def reposition!
-    self.class.reposition id
+  def reposition
+    self.position = rand(-2147483648..2147483647)
+    self
   end
 
   class_methods do
@@ -21,14 +22,6 @@ module Ordering
         end
         yield ordering
       end
-    end
-
-    def reposition id
-      connection.execute <<-SQL
-        UPDATE #{table_name}
-        SET position = random_position()
-        WHERE id = #{id}
-      SQL
     end
 
     def draw

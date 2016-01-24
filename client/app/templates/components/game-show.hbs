@@ -13,41 +13,30 @@
 </div>
 {{#if isCzar}}
   {{#if onlyPlayer}}
-    You're the only one here! Invite some players: ...
+    <div class="game-show--share">
+      You're the only one here!<br/>
+      Invite some friends by sharing this page.<br/>
+      {{fa-icon "arrow-down" class="game-show--share--icon"}}
+    </div>
   {{else}}
     {{#if allSubmitted}}
-      <ul class="game-show--hand">
-        {{#each submitted as |membership|}}
-          <li class="game-show--hand--card">
-            <a href="" {{action "pick" membership}}>
-              {{{membership.firstAnswer.text}}}
-            </a>
-          </li>
-        {{/each}}
-      </ul>
+      {{game-show/hand choices=submitted on-choose="pick"}}
     {{else}}
-      <div class="game-show--submitted">
-        <span class="game-show--submitted--badge">
-          {{~submitted.length}}/{{submittable.length~}}
-        </span>
-        submitted
+      <div class="game-show--submissions">
+        {{#each submitted as |membership index|}}
+          {{game-show/submission number=(subtract submittable.length index) delay=(multiply 250 index)}}
+        {{/each}}
       </div>
     {{/if}}
   {{/if}}
 {{else}}
-  <div class="game-show--submissions is-pick-{{game.question.pick}}">
-    {{#if playerMembership.firstAnswer}}
-      <div class="game-show--submission">
-        {{playerMembership.firstAnswer.text}}
-      </div>
-    {{/if}}
-  </div>
-  <div class="game-show--hand">
-    {{#each game.answers as |answer|}}
-      <a href="" {{action "submit" answer}} class="game-show--hand--card">
-        {{{answer.text}}}
-      </a>
-    {{/each}}
-  </div>
+  {{#if playerSubmitted}}
+    <div class="game-show--submissions">
+      {{#each submitted as |membership index|}}
+        {{game-show/submission number=(subtract submittable.length index) delay=(multiply 250 index)}}
+      {{/each}}
+    </div>
+  {{/if}}
+  {{game-show/hand has-submitted=playerSubmitted choices=game.answers on-choose="submit"}}
 {{/if}}
 

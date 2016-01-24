@@ -46,7 +46,6 @@
       if (this.isOpen()) {
         return this.closeSilently((function(_this) {
           return function() {
-            debugger;
             return _this.open();
           };
         })(this));

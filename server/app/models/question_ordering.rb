@@ -8,8 +8,7 @@ class QuestionOrdering < ApplicationRecord
   def self.pull
     next_with_lock do |ordering|
       question = ordering.question
-      ordering.update!(pile: 'discard')
-      ordering.reposition!
+      ordering.reposition.update!(pile: 'discard')
       question
     end
   end

@@ -1,2 +1,8 @@
-{{game-create on-created="created"}}
-{{game-list games=player.games}}
+<div class="player-lobby">
+  <div class="player-lobby--container">
+    <div class="player-lobby--title">
+      Welcome, {{player.name}}.
+    </div>
+    {{game-create on-created="created"}}
+  </div>
+</div>

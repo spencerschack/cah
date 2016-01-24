@@ -4,12 +4,17 @@ import get from 'ember-metal/get';
 import service from 'ember-service/inject';
 import set from 'ember-metal/set';
 
+const handRadius = 300;
+export const handAngle = 0.165;
+
 export default Component.extend({
 
   // attrs
   'on-pick': null,
 
   session: service(),
+
+  classNames: ['game-show'],
 
   isCzar: computed('session.player', 'game.player', function() {
     return get(this, 'session.player') === get(this, 'game.player');
@@ -22,7 +27,7 @@ export default Component.extend({
     });
   }),
 
-  submitted: computed.filterBy('game.memberships', 'firstAnswer'),
+  submitted: computed.filterBy('game.memberships', 'answers.length'),
 
   allSubmitted: computed('submittable.length', 'submitted.length', function() {
     return get(this, 'submittable.length') === get(this, 'submitted.length');
@@ -35,30 +40,19 @@ export default Component.extend({
     return get(this, 'game.memberships').findBy('player', player);
   }),
 
-  playerSubmitted: computed.bool('playerMembership.firstAnswer'),
-
-  rotate: Ember.on('didInsertElement', function() {
-    this.$('.game-show--hand').on('scroll', event => {
-      const {scrollLeft, scrollWidth, clientWidth} = event.target;
-      const scrollPosition = scrollLeft / (scrollWidth - clientWidth);
-      const cardWidth = window.innerWidth / 2;
-      const cards = this.$('.game-show--hand--card');
-      cards.each((index, item) => {
-        const cardPosition = (item.offsetLeft - cardWidth / 2) / (scrollWidth - clientWidth);
-        const delta = Math.min(cardPosition - scrollPosition, 0.2);
-        const radius = cardWidth * 10;
-        const angle = delta / Math.sqrt(1 - Math.pow(delta, 2));
-        const drop = -(Math.sqrt(1 - Math.pow(delta, 2)) - 1) * radius;
-        item.style.transform = `rotate(${angle}rad) translateY(${drop}px)`;
-      });
-    }).trigger('scroll');
+  playerSubmitted: computed('playerMembership.answers.length', 'game.question.pick', function() {
+    return get(this, 'playerMembership.answers.length') === get(this, 'game.question.pick');
   }),
 
   actions: {
     
     submit(answer) {
-      set(this, 'playerMembership.firstAnswer', answer);
-      // this.sendAction('on-submit', [answer]);
+      const game = get(this, 'game');
+      const answers = get(this, 'playerMembership.answers');
+      answers.addObject(answer);
+      get(game, 'answers').removeObject(answer);
+      if(get(answers, 'length') === get(game, 'question.pick'))
+        this.sendAction('on-submit', answers);
     },
 
     pick(membership) {
