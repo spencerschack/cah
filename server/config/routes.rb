@@ -8,6 +8,6 @@ Rails.application.routes.draw do
 
   mount ActionCable.server => '/cable'
 
-  mount_ember_app :client, to: '/'
+  match '*path' => 'application#ember'
   
 end
