@@ -1,58 +1,64 @@
 import Component from 'ember-component';
 import computed from 'ember-computed';
 import get from 'ember-metal/get';
-import service from 'ember-service/inject';
-import set from 'ember-metal/set';
-
-const handRadius = 300;
-export const handAngle = 0.165;
+import decorated from 'ember-computed-decorators';
 
 export default Component.extend({
 
   // attrs
-  'on-pick': null,
-
-  session: service(),
+  'player-membership': null,
+  'on-choose': null,
+  'on-position': null,
 
   classNames: ['game-show'],
 
-  isCzar: computed('session.player', 'game.player', function() {
-    return get(this, 'session.player') === get(this, 'game.player');
-  }),
+  playerMembership: computed.alias('player-membership'),
+  game: computed.alias('playerMembership.game'),
 
-  submittable: computed('game.memberships', function() {
-    const player = get(this, 'session.player');
-    return get(this, 'game.memberships').filter(membership => {
-      return get(membership, 'player') !== player;
-    });
-  }),
+  isAcking: computed.equal('state', 'acking'),
+  question: computed.ifProp('isAcking', 'game.lastQuestion', 'game.question'),
 
-  submitted: computed.filterBy('game.memberships', 'answers.length'),
+  memberships: computed.alias('game.memberships'),
+  pick: computed.alias('game.question.pick'),
 
-  allSubmitted: computed('submittable.length', 'submitted.length', function() {
-    return get(this, 'submittable.length') === get(this, 'submitted.length');
-  }),
+  membershipScores: computed.mapBy('memberships', 'score'),
+  totalTurns: computed.sum('membershipScores'),
+  ackedTurns: computed.init('totalTurns'),
+  needsAck: computed.gtProp('totalTurns', 'ackedTurns'),
 
-  onlyPlayer: computed.equal('submittable.length', 0),
+  isCzar: computed.equalProp('playerMembership.player', 'game.player'),
+  isOnlyPlayer: computed.equal('submittableCount', 0),
 
-  playerMembership: computed('game.memberships', function() {
-    const player = get(this, 'session.player');
-    return get(this, 'game.memberships').findBy('player', player);
-  }),
+  submittableCount: computed.difference('memberships.length', 1),
+  submitted: computed.filterByProp('memberships', 'submissions.length', 'pick'),
 
-  playerSubmitted: computed('playerMembership.answers.length', 'game.question.pick', function() {
-    return get(this, 'playerMembership.answers.length') === get(this, 'game.question.pick');
-  }),
+  isAllSubmitted: computed.equalProp('submittableCount', 'submitted.length'),
+  playerSubmissions: computed.alias('playerMembership.submissions'),
+  isPlayerSubmitted: computed.equalProp('playerSubmissions.length', 'pick'),
+
+  @decorated('isCzar', 'isPlayerSubmitted', 'isAllSubmitted', 'needsAck')
+  state(isCzar, isPlayerSubmitted, isAllSubmitted, needsAck) {
+    if(needsAck)
+      return 'acking';
+    if(isAllSubmitted)
+      return 'viewing';
+    if(isPlayerSubmitted || isCzar)
+      return 'waiting';
+    return 'choosing';
+  },
 
   actions: {
+
+    ackTurn() {
+      this.incrementProperty('ackedTurns');
+    },
+
+    position(position) {
+      this.sendAction('on-position', position);
+    },
     
     submit(answer) {
-      const game = get(this, 'game');
-      const answers = get(this, 'playerMembership.answers');
-      answers.addObject(answer);
-      get(game, 'answers').removeObject(answer);
-      if(get(answers, 'length') === get(game, 'question.pick'))
-        this.sendAction('on-submit', answers);
+      this.sendAction('on-submit', answer);
     },
 
     pick(membership) {

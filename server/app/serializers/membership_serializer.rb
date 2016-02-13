@@ -4,8 +4,9 @@ class MembershipSerializer < ActiveModel::Serializer
   belongs_to :player
   belongs_to :game
   has_many :answers
+  has_many :submissions
 
-  def answers
+  def submissions
     [object.first_answer, object.second_answer, object.third_answer].compact
   end
 

@@ -19,7 +19,7 @@ export default Service.extend({
 
   subscribe(channel, handlers = {}) {
     handlers.received = data => {
-      console.log('cable:', data);
+      console.log('cable:', Ember.copy(data, true));
       if(data) {
         get(this, 'store').pushPayload(data);
       }

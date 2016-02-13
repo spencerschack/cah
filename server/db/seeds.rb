@@ -1,15 +1,9 @@
-def open_file name
-  File.read(File.expand_path("../seeds/#{name}.txt", __FILE__)).split("\n")
-end
-
-answers = open_file('answers')
-questions = open_file('questions')
-
-answers.each do |answer|
-  Answer.create(text: answer)
-end
-
-questions.each do |question|
-  pick = [question.count('_'), 1].max
-  Question.create(text: question, pick: pick)
+ActiveRecord::Base.transaction do
+  json = JSON.parse(Pathname("../seeds/cards.json").expand_path(__FILE__).read)
+  json['whiteCards'].each do |text|
+    Answer.create!(text: text)
+  end
+  json['blackCards'].each do |card|
+    Question.create!(card)
+  end
 end

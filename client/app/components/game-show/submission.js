@@ -24,12 +24,10 @@ export default Component.extend({
   }),
 
   throwInTo: on('didInsertElement', function() {
-    run.later(() => {
-      const rotation = (Math.random() - 0.5) * Math.PI / 2;
-      const x = Math.random() * 20;
-      const y = Math.random() * 20;
-      this.element.style.transform = transformFor(x, y, rotation);
-    }, get(this, 'delay'));
+    const rotation = (Math.random() - 0.5) * Math.PI / 2;
+    const x = Math.random() * 10;
+    const y = Math.random() * 10;
+    this.element.style.transform = transformFor(x, y, rotation);
   })
 
 });

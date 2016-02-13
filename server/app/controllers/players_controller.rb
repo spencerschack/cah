@@ -7,7 +7,7 @@ class PlayersController < ApplicationController
   def create
     player = Player.new player_params
     if player.save!
-      cookies.signed[:player_id] = player.id
+      cookies.permanent.signed[:player_id] = player.id
     end
     render json: player
   end

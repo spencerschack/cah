@@ -15,7 +15,12 @@ class Membership < ApplicationRecord
   end
 
   def draw_up!
-    answers << (answers.count...10).map{ game.answer_orderings.pull }
+    to_draw = game.question.draw + 10 - answers.count
+    answers << to_draw.times.map{ game.answer_orderings.pull }
+  end
+
+  def unanswer!
+    update!(first_answer: nil, second_answer: nil, third_answer: nil)
   end
 
 end

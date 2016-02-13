@@ -1,0 +1,123 @@
+$game-show--padding: 6vw
+
+.game-show
+  position: fixed
+
+.game-show--players
+  padding: $game-show--padding
+  position: fixed
+  color: white
+  font-size: 4vw
+  z-index: 10
+
+.game-show--players
+  right: 0
+
+.game-show--players--count,
+.game-show--pick--count
+  min-width: 6vw
+  height: 6vw
+  display: inline-block
+  box-sizing: border-box
+  padding: 0 1.5vw
+  background: white
+  border-radius: 3vw
+  color: black
+  line-height: 6vw
+  text-align: center
+
+.game-show--question
+  width: 100vw
+  position: fixed
+  top: 20vw
+  box-sizing: border-box
+  padding: 0 $game-show--padding
+  font-size: 6.5vw
+  color: white
+
+.game-show--question--underscore
+  width: 30vw
+  display: inline-block
+  color: transparent
+  border-bottom: 1px solid white
+
+.game-show--submissions
+  width: 100vw
+  height: 30vh
+  position: absolute
+
+.game-show--submission
+  width: 20vw
+  height: 24vw
+  position: absolute
+  top: 50%
+  left: 50%
+  margin: -10vw 0 0 -12vw
+  background: white
+  border-radius: 1vw
+  text-align: center
+  line-height: 24vw
+  font-size: 12vw
+  transition: transform 500ms
+  box-shadow: 0 0 1.5vw rgba(0, 0, 0, 0.3)
+
+.game-show--czar-is-choosing
+  width: 100vw
+  position: absolute
+  top: 3vh
+  padding-left: $game-show--padding
+  color: gray
+
+.game-show--pick
+  width: 100vw
+  position: absolute
+  top: 50vh
+  padding-left: $game-show--padding
+  color: white
+  text-transform: uppercase
+  opacity: 0
+
+.game-show--pick--count
+  background: white
+  color: black
+
+.game-show--submissions--animator,
+.game-show--answers-hand--animator,
+.game-show--submissions-hand--animator,
+.game-show--ack--animator
+  width: 100vw
+  position: absolute
+  overflow: visible
+  animation-duration: 0.25s
+
+  &.is-animating-out
+    animation-direction: reverse
+
+.game-show--ack--animator
+  height: 100vh
+
+  &.is-animating-in,
+  &.is-animating-out
+    animation-name: game-show--ack--animation
+
+.game-show--submissions--animator,
+.game-show--answers-hand--animator,
+.game-show--submissions-hand--animator
+  top: 50vh
+  height: 50vh
+
+  &.is-animating-in,
+  &.is-animating-out
+    animation-name: game-show--answers-hand--animation
+
+@keyframes game-show--answers-hand--animation
+  from
+    top: 100vh
+  to
+    top: 50vh
+
+@keyframes game-show--ack--animation
+  from
+    top: 100vh
+  to
+    top: 0

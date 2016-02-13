@@ -7,6 +7,14 @@ class GameChannel < ApplicationCable::Channel
     transmit_json game, include: Game::FULL_INCLUDES
   end
 
+  def position data
+    game = find_game
+    game.update!(viewing_position: data['position'])
+    self.class.broadcast_to game, {data:
+      {id: game.id, type: 'games', attributes: {
+        viewing_position: game.viewing_position}}}
+  end
+
   def submit data
     game = find_game
     membership = game.memberships.find{|m| m.player == current_player}
@@ -18,9 +26,8 @@ class GameChannel < ApplicationCable::Channel
           second_answer: answers.second,
           third_answer: answers.third)
         membership.answer_memberships.where(answer: answers).destroy_all
-        membership.draw_up!
       end
-      transmit_json game, include: 'answers'
+      transmit_json game, include: 'answers,submissions'
       self.class.answer_submitted(membership)
     end
   end
@@ -39,10 +46,11 @@ class GameChannel < ApplicationCable::Channel
           game.answer_orderings << answer_ids.map do |id|
             AnswerOrdering.new(answer_id: id, pile: 'discard').reposition
           end
+          game.question_orderings.pull
           game.memberships.each do |m|
             m.update!(first_answer: nil, second_answer: nil, third_answer: nil)
+            m.draw_up!
           end
-          game.question_orderings.pull
           game.membership = game.memberships.where('id > ?', game.membership_id).first || game.memberships.first
           game.save!
         end
@@ -52,7 +60,7 @@ class GameChannel < ApplicationCable::Channel
   end
 
   def self.game_changed game
-    broadcast_json game, game, include: 'memberships,question'
+    broadcast_json game, game, include: 'memberships.submissions,memberships.answers,question'
   end
 
   def self.membership_created membership
@@ -71,7 +79,7 @@ class GameChannel < ApplicationCable::Channel
 
   def self.membership_changed membership
     broadcast_json membership.game, membership,
-      include: 'player,answers'
+      include: 'player,submissions,answers'
   end
   
 end

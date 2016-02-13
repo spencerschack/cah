@@ -1,0 +1,11 @@
+<div class="game-show--ack--choice-container">
+  {{game-show/hand/choice answers=game.lastWinner.lastSubmissions position=1}}
+</div>
+<div class="game-show--ack--winner">
+  <div class="game-show--ack--winner--label">Winner</div>
+  {{game.lastWinner.player.name}}
+</div>
+<button class="game-show--ack--button" {{action "ack"}}>
+  Next Turn
+  {{fa-icon "angle-right" class="game-show--ack--button--icon"}}
+</button>

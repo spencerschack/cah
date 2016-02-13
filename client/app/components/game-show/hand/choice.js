@@ -24,11 +24,10 @@ export default Component.extend({
   answers: computed('choice', function() {
     const choice = get(this, 'choice');
     if(get(choice, 'text')) return [choice];
-    return get(choice, 'answers');
+    return get(choice, 'submissions');
   }),
 
   classNames: ['game-show--hand--choice'],
-  classNameBindings: ['isSubmitted'],
 
   startX: null,
   startY: null,
@@ -47,7 +46,7 @@ export default Component.extend({
 
   angle: computed('answers.length', function() {
     const length = get(this, 'answers.length');
-    const anglesPerChoice = length > 1 ? length + 1 : length;
+    const anglesPerChoice = length > 1 ? length + 0.5 : length;
     return anglesPerChoice * angle;
   }),
 
@@ -77,10 +76,8 @@ export default Component.extend({
 
   transforms: computed.collect('translateX', 'translateY', 'rotateZ'),
 
-  transformer: on('didInsertElement', observer('position', 'isSubmitted', 'transforms.[]', function() {
+  transformer: on('didInsertElement', observer('position', 'transforms.[]', function() {
     const style = this.element.style;
-    if(get(this, 'isSubmitted'))
-      return style.transform = '';
     const position = get(this, 'position');
     style.display = position < -2 || position > 2 ? 'none' : '';
     style.transform = get(this, 'transforms').join(' ');
@@ -104,11 +101,13 @@ export default Component.extend({
   },
 
   touchStart(event) {
+    if(!get(this, 'on-choose')) return;
     set(this, 'startX', event.originalEvent.touches[0].pageX);
     set(this, 'startY', event.originalEvent.touches[0].pageY);
   },
 
   touchMove(event) {
+    if(!get(this, 'on-choose')) return;
     switch(get(this, 'touchDirection')) {
       case null:     this.firstTouchMove(event); break;
       case 'upward': this.flickTouchMove(event); break;
@@ -116,8 +115,9 @@ export default Component.extend({
   },
 
   touchEnd() {
+    if(!get(this, 'on-choose')) return;
     // Let this run next so that `hand` can remove `.is-touching`
-    run.next(() => {
+    run.schedule('afterRender', () => {
       if(-get(this, 'flickY') > cardWidth())
         this.choose();
       set(this, 'touchDirection', null);
@@ -129,15 +129,27 @@ export default Component.extend({
   },
 
   click() {
+    if(!get(this, 'on-choose')) return;
     this.$().removeClass('is-bouncing');
     run.next(() => this.$().addClass('is-bouncing'));
   },
 
   choose() {
-    set(this, 'isSubmitted', true);
-    Ember.run.later(() => {
-      this.sendAction('on-choose', get(this, 'choice'));
-    }, 500);
+    this.animateOut();
+    this.sendAction('on-choose', get(this, 'choice'));
+  },
+
+  animateOut() {
+    const copy = this.$().clone();
+    const parent = this.$().parent();
+    run.schedule('afterRender', () => {
+      copy.appendTo(parent);
+      run.next(() => {
+        copy.addClass('is-submitted');
+        copy.css('transform', '');
+        copy.one('transitionend animationend', () => copy.remove());
+      });
+    });
   }
 
 });

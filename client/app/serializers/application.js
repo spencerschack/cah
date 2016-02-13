@@ -4,6 +4,10 @@ import {underscore} from 'ember-string';
 
 export default JSONAPISerializer.extend({
 
+  keyForAttribute(key) {
+    return underscore(key);
+  },
+
   keyForRelationship(key) {
     return underscore(key);
   },

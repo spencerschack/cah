@@ -7,5 +7,7 @@ Rails.application.routes.draw do
   resources :memberships, only: :create
 
   mount ActionCable.server => '/cable'
+
+  mount_ember_app :client, to: '/'
   
 end

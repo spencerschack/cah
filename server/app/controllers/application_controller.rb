@@ -1,10 +1,6 @@
-class ApplicationController < ActionController::API
+class ApplicationController < ActionController::Base
 
   self._serialization_scope = :current_player
-
-  def self.helper_method(*); end
-
-  include ActionController::Cookies
 
   def current_player
     return @current_player if defined? @current_player

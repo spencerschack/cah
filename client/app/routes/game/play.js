@@ -11,13 +11,17 @@ export default Route.extend({
   cable: service(),
   session: service(),
 
-  afterModel(model) {
-    if(!get(model, 'players').contains(get(this, 'session.player'))) {
+  model(...args) {
+    const game = this._super(...args);
+    const player = get(this, 'session.player');
+    const membership = get(game, 'memberships').findBy('player', player);
+    if(!membership) {
       this.transitionTo('game.join');
     } else {
-      const id = get(model, 'id');
+      const id = get(game, 'id');
       const subscription = get(this, 'cable').subscribe({channel, id});
       set(this, 'subscription', subscription);
+      return membership;
     }
   },
 
@@ -31,13 +35,25 @@ export default Route.extend({
   },
 
   actions: {
+
+    back() {
+      this.transitionTo('lobby');
+    },
+
+    position(position) {
+      this.perform('position', {position});
+    },
     
     pick(membership) {
       this.perform('pick', {id: get(membership, 'id')});
     },
 
-    submit(answers) {
-      this.perform('submit', {ids: answers.mapBy('id')});
+    submit(answer) {
+      const membership = this.modelFor(this.routeName);
+      const submissions = get(membership, 'submissions');
+      submissions.addObject(answer);
+      if(get(submissions, 'length') === get(membership, 'game.question.pick'))
+        this.perform('submit', {ids: submissions.mapBy('id')});
     }
   
   }
