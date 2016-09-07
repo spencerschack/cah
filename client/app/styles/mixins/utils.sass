@@ -1,0 +1,10 @@
+// From: https://github.com/dropbox/scooter/blob/master/scss/mixins/_properties.scss
+=share($props.../*, $value */)
+  @for $i from 1 to length($props)
+    #{nth($props, $i)}: nth($props, -1)
+
+=transition($props.../*, $duration */)
+  $values: ()
+  @for $i from 1 to length($props)
+    $values: append($values, nth($props, $i) nth($props, -1), comma)
+  transition: $values

@@ -1,20 +1,21 @@
-class ApplicationController < ActionController::API
+class ApplicationController < JSONAPI::ResourceControllerMetal
 
-  self._serialization_scope = :current_player
+  include ActionController::HttpAuthentication::Token::ControllerMethods
 
-  def self.helper_method(*); end
+  private
 
-  include ActionController::Cookies
+  def resource_serializer_klass
+    ApplicationResourceSerializer
+  end
 
-  def ember
-    send_file Rails.root.join('public', 'index.html'),
-      type: 'text/html; charset=utf-8'
+  def context
+    { current_player: current_player }
   end
 
   def current_player
-    return @current_player if defined? @current_player
-    id = cookies.signed[:player_id]
-    @current_player = id ? Player.find_by(id: id) : nil
+    @current_player ||= authenticate_with_http_token do |token, options|
+      Player.find_by_token!(token)
+    end
   end
 
 end

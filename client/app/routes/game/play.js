@@ -41,11 +41,11 @@ export default Route.extend({
     },
 
     position(position) {
-      this.perform('position', {position});
+      this.perform('position', position);
     },
     
     pick(membership) {
-      this.perform('pick', {id: get(membership, 'id')});
+      this.perform('pick', get(membership, 'id'));
     },
 
     submit(answer) {
@@ -53,7 +53,7 @@ export default Route.extend({
       const submissions = get(membership, 'submissions');
       submissions.addObject(answer);
       if(get(submissions, 'length') === get(membership, 'game.question.pick'))
-        this.perform('submit', {ids: submissions.mapBy('id')});
+        this.perform('submit', submissions.mapBy('id'));
     }
   
   }

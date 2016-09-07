@@ -1,0 +1,5 @@
+<div class="dev">
+  {{#each model.tokens as |token|}}
+    <iframe src="/{{model.id}}?token={{token}}"></iframe>
+  {{/each}}
+</div>

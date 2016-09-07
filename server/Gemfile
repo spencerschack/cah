@@ -1,10 +1,12 @@
 source 'https://rubygems.org'
 
-gem 'rails', '>= 5.0.0.beta1', '< 5.1'
-gem 'pg', '~> 0.18'
+gem 'rails'
+gem 'pg'
 gem 'puma'
-gem 'active_model_serializers', '0.10.0.rc3'
+gem 'jsonapi-resources', '0.8.0.beta2'
 gem 'sucker_punch'
+gem 'dotenv-rails'
+gem 'jwt'
 
 group :development, :test do
   gem 'byebug'
@@ -13,4 +15,5 @@ end
 group :development do
   gem 'spring'
   gem 'database_cleaner'
+  gem 'annotate'
 end

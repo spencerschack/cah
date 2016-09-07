@@ -2,26 +2,22 @@
 module ApplicationCable
   class Channel < ActionCable::Channel::Base
 
+    delegate :serialize, to: :class
+
+    def self.broadcast_json target, *records, **options
+      broadcast_to target, serialize(records, **options)
+    end
+
+    def transmit_json *records, **options
+      transmit serialize(records, **options)
+    end
+
     private
 
-    def self.broadcast_json channel_model, data_model, options={}
-      broadcast_to channel_model, resource_for(data_model, options).as_json
-    end
-
-    def transmit_json model, options={}
-      transmit resource_for(model, options).as_json
-    end
-
-    def resource_for model, options
-      resource = self.class.resource_for(model, options)
-      resource.serialization_scope = current_player
-      resource
-    end
-
-    def self.resource_for model, options
-      resource = ActiveModel::SerializableResource.new(model, options)
-      resource.serialization_scope_name = :current_player
-      resource
+    def self.serialize records, **options
+      records.map do |record|
+        ApplicationResource.serialize_to_hash(record, options)
+      end
     end
 
   end

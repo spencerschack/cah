@@ -2,18 +2,14 @@ import Ember from 'ember';
 import config from './config/environment';
 
 const Router = Ember.Router.extend({
-  location: config.locationType
+  location: config.locationType,
+  rootURL: config.rootURL
 });
 
 Router.map(function() {
-  this.route('lobby', {path: '/'});
-  this.route('register');
-  this.route('game', {path: '/:game_id'}, function() {
-    this.route('play', {path: '/'}, function() {
-      this.route('players');
-    });
-    this.route('join');
-  });
+  this.route('game', {path: '/:game_id'});
+  this.route('intro', {path: '/'});
+  this.route('dev');
 });
 
 export default Router;

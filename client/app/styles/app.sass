@@ -1,12 +1,19 @@
-@import bower_components/font-awesome/scss/font-awesome
+@import variables
 
 @import base
+@import dev
 
-@import components/game-show
-@import components/game-show/ack
-@import components/game-show/hand
-@import components/game-show/hand/choice
-@import components/game-show/hand/card
-@import components/game-show/share
-@import components/pages
-@import components/players-list
+@import mixins/utils
+@import mixins/viewport-padding
+@import mixins/typography
+@import mixins/game-button
+@import mixins/card
+
+@import components/app-intro
+@import components/app-game
+@import components/game-players
+@import components/game-question
+@import components/game-answers
+@import components/game-answer
+@import components/game-menu-button
+@import components/game-join-button

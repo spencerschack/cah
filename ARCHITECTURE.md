@@ -1,6 +1,18 @@
+game
+  memberships
+    player
+  rounds
+    czar
+    winner
+    submissions
+      answer_ordering
+
+
 Game
 ====
-czar: Player
+----
+create: authenticated
+show: anyone
 
 Answer
 ======
@@ -14,6 +26,7 @@ AnswerOrdering
 ==============
 answer: Answer
 game: Game
+player: Player
 position: integer
 pile: enum('draw', 'discard')
 
@@ -28,14 +41,31 @@ Player
 ======
 name: string
 token: string(32)
+-----------------
+create: guest
+current: authenticated
 
 Membership
 ==========
 player: Player
 game: Game
-score: integer
+acknowledged: boolean
+-------------------
+update: self.player
 
-AnswerMembership
-=============
-answer: Answer
-membership: Membership
+Round
+=====
+game: Game
+question: Question
+czar: Membership
+winner: Membership
+------------------
+update: czar
+
+Submission
+==========
+round: Round
+answer_ordering: AnswerOrdering
+submitter: Membership
+---------------------
+create: self.submitter.player

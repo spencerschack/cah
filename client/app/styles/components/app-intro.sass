@@ -1,0 +1,50 @@
+.app-intro-title
+  +viewport-padding
+  +medium-weight
+  margin-top: 10vh
+  margin-bottom: 20vh
+  font-size: 15vw
+  letter-spacing: -1px
+  line-height: 15vw
+
+.app-intro-salutation
+  +viewport-padding
+  +medium-weight
+
+.app-intro-license
+  +viewport-padding
+  position: absolute
+  bottom: 0
+  color: $secondary-text-color
+
+  a
+    color: inherit
+
+.app-intro-action
+  +medium-weight
+  width: 100%
+  display: block
+  padding-top: 0.7rem
+  padding-bottom: 0.8rem
+  background: $brand-color
+  text-align: center
+  text-decoration: none
+  color: white
+
+  &:hover
+    background: $brand-hover-color
+
+  &:active
+    background: $brand-active-color
+
+.app-intro-label
+  +viewport-padding
+  +medium-weight
+  display: block
+  margin-bottom: 0.25rem
+
+.app-intro-input
+  +viewport-padding
+  width: 100%
+  margin-bottom: 0.75rem
+  +share(padding-top, padding-bottom, 0.75rem)

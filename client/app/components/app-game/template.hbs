@@ -1,0 +1,14 @@
+{{game-players game=game
+  isClosed=(not (or hasToJoin isMenuOpen))}}
+
+{{game-question question=game.currentRound.question
+  isHidden=(or hasToJoin isMenuOpen)}}
+
+{{game-menu-button action=(action "toggle")
+  isHidden=hasToJoin
+  isClosed=(not isMenuOpen)}}
+
+{{game-join-button action=(action "join")
+  isHidden=(not hasToJoin)}}
+
+{{game-answers game=game}}

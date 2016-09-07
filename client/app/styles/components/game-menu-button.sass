@@ -1,0 +1,14 @@
+.game-menu-button
+  +game-button
+
+.game-menu-button-icon
+  +share(width, height, 8px)
+  position: absolute
+  right: $viewport-padding
+  +share(border-right, border-bottom, 2px solid $brand-color)
+
+  transition: transform 250ms
+  transform: translateY(15px) rotate(45deg)
+
+  .game-menu-button.is-closed &
+    transform: translateY(22px) rotate(225deg)

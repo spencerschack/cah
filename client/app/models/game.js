@@ -1,31 +1,40 @@
 import Model from 'ember-data/model';
 import attr from 'ember-data/attr';
-import computed from 'ember-computed';
-import get from 'ember-metal/get';
-import on from 'ember-evented/on';
-import set from 'ember-metal/set';
+import service from 'ember-service/inject';
+import computed, {alias, mapBy} from 'ember-computed-decorators';
 import {belongsTo, hasMany} from 'ember-data/relationships';
-import {isPresent} from 'ember-utils';
 
 export default Model.extend({
 
+  session: service(),
+
   viewingPosition: attr('number'),
 
-  question: belongsTo({async: false}),
-  membership: belongsTo({async: false}),
-  memberships: hasMany({async: false}),
-  answers: hasMany({async: false}),
+  answerOrderings: hasMany({async: false}),
+  memberships:     hasMany({async: false}),
+  rounds:          hasMany({async: false}),
 
-  player: computed.alias('membership.player'),
-  players: computed.mapBy('memberships', 'player'),
+  @alias('session.player') player,
+  @mapBy('memberships', 'player') players,
 
-  lastWinner: null,
-  lastQuestion: null,
-  nextLastQuestion: computed.init('question'),
-  updateLastWinner: on('membershipWon', function(membership) {
-    set(this, 'lastQuestion', get(this, 'nextLastQuestion'));
-    set(this, 'nextLastQuestion', get(this, 'question'));
-    set(this, 'lastWinner', membership);
-  })
+  @computed('memberships.@each.player', 'player')
+  playerMembership(memberships, player) {
+    return memberships.findBy('player', player);
+  },
+
+  @computed('players.[]', 'player')
+  hasPlayer(players, player) {
+    return players.includes(player);
+  },
+
+  @computed('rounds.@each.winner')
+  currentRound(rounds) {
+    return rounds.findBy('winner', null);
+  },
+
+  @computed('memberships.@each.player', 'player')
+  opponents(memberships, player) {
+    return memberships.rejectBy('player', player);
+  }
   
 });

@@ -1,4 +1,32 @@
+import Ember from 'ember';
 import Route from 'ember-route';
+import get from 'ember-metal/get';
 import service from 'ember-service/inject';
+import SubscriptionRoute from './mixins/subscription';
 
-export default Route.extend();
+const include = [
+  'memberships.player',
+  'memberships.answer-orderings',
+  'rounds.submissions'
+].join(',');
+
+export default Route.extend(
+  SubscriptionRoute,
+{
+
+  session: service(),
+
+  model({game_id}) {
+    return get(this, 'store').findRecord('game', game_id, {include});
+  },
+
+  renderTemplate() {
+    const player = get(this, 'session.player');
+    if(!player) {
+      this.render('intro');
+    } else {
+      this._super(...arguments);
+    }
+  }
+
+});

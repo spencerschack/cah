@@ -1,0 +1,11 @@
+$brand-color: #5378FF;
+$brand-hover-color: lighten($brand-color, 5%);
+$brand-active-color: darken($brand-color, 5%);
+$secondary-text-color: darken(white, 50%);
+$viewport-padding: 7vw;
+$medium-weight: 500;
+$separator-border: 1px solid darken(white, 10%);
+$transition-duration: 250ms;
+
+$game-players-title-height: 50px;
+$game-players-membership-height: 45px;

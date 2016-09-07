@@ -7,15 +7,20 @@ module.exports = function(defaults) {
     sassOptions: {
       extension: 'sass'
     },
-    emberCliFontAwesome: {
-      useScss: true
-    },
     babel: {
-      optional: ['es7.decorators']
+      stage: 0
     }
   });
 
-  app.import('vendor/actioncable.js');
+  app.import({
+    development: 'bower_components/seedrandom/seedrandom.js',
+    production: 'bower_components/seedrandom/seedrandom.min.js'
+  });
+
+  app.import({
+    development: 'bower_components/hammerjs/hammer.js',
+    production: 'bower_components/hammerjs/hammer.min.js'
+  });
 
   return app.toTree();
 };

@@ -21,7 +21,7 @@ default: &default
   # http://guides.rubyonrails.org/configuring.html#database-pooling
   pool: 5
 
-development:
+development: &development
   <<: *default
   database: cah
 
@@ -79,7 +79,4 @@ test:
 #     url: <%= ENV['DATABASE_URL'] %>
 #
 production:
-  <<: *default
-  database: cards-against-humanity_production
-  username: cards-against-humanity
-  password: <%= ENV['CARDS-AGAINST-HUMANITY_DATABASE_PASSWORD'] %>
+  <<: *development

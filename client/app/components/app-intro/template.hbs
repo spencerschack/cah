@@ -1,0 +1,24 @@
+<h1 class="app-intro-title">
+  Memes Against Humanity
+</h1>
+{{#if player}}
+  <p class="app-intro-salutation">
+    Welcome, {{player.name}}.
+  </p>
+  <a href="" {{action "start"}} class="app-intro-action">
+    Start game
+  </a>
+{{else}}
+  <form {{action "join" name on="submit"}}>
+    <label for="name" class="app-intro-label">Choose a name.</label>
+    {{input value=name id="name" class="app-intro-input"}}
+    <input type="submit" value={{if game "Join Game" "Start Game"}}>
+  </form>
+{{/if}}
+<p class="app-intro-license">
+  The content of this game are used under a
+  <a href="https://creativecommons.org/licenses/by-nc-sa/2.0/">
+    Creative Commons BY-NC-SA 2.0 license</a>
+  from <a href="https://cardsagainsthumanity.com/">
+    Cards Against Humanity</a>.
+</p>

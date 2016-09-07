@@ -1,13 +1,14 @@
 Rails.application.routes.draw do
 
-  resources :games, only: [:index, :create, :show]
-
-  resources :players, only: [:index, :create]
-
-  resources :memberships, only: :create
+  resources :games, only: [:create, :show]
+  resources :rounds, only: :update
+  resources :memberships, only: [:create, :update]
+  resources :submissions, only: :create
+  resources :players, only: [:create, :show]
 
   mount ActionCable.server => '/cable'
 
-  get '*path' => 'application#ember'
+  get '*path' => 'static#ember'
+  root to: 'static#ember'
   
 end

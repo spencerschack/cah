@@ -1,0 +1,28 @@
+%game-answer-face
+  +card
+  height: 120vw
+  background: white
+  color: black
+  backface-visibility: hidden
+  box-shadow: 0 0 5vw rgba(black, 0.3)
+
+.game-answer
+  @extend %game-answer-face
+  transform-style: preserve-3d
+
+  +transition(transform, bottom, 250ms)
+  .game-answers.is-panning &
+    transition: none
+
+  &.is-state-hand
+    bottom: -20vw
+
+  &.is-state-pile
+    bottom: 10vw
+
+.game-answer-back
+  @extend %game-answer-face
+  line-height: 100vw
+  transform: rotateY(180deg)
+  font-size: 300px
+  text-align: center

@@ -1,0 +1,50 @@
+.game-players
+  position: relative
+  top: 0
+  transition: top 250ms
+
+  &.is-closed
+    top: -($game-players-title-height + 1px)
+
+.game-players-title
+  +viewport-padding
+  +medium-weight
+  +share(margin-top, margin-bottom, 0)
+  border-bottom: $separator-border
+  font-size: 21px
+  line-height: $game-players-title-height
+
+.game-players-membership
+  +viewport-padding
+  +medium-weight
+  line-height: $game-players-membership-height
+  border-bottom: $separator-border
+  transition: border-bottom-color 250ms
+
+  .game-players.is-closed &
+    border-bottom-color: transparent
+
+.game-players-czar-label
+  margin-right: 5px
+  display: inline-block
+  color: gold
+
+  &:before
+    content: '★'
+
+  .game-players-membership:not(.is-czar) &
+    opacity: 0
+
+.game-players-score
+  float: right
+  transition: opacity 250ms
+
+  .game-players.is-closed &
+    opacity: 0
+
+.game-players-invite-directions
+  +viewport-padding
+  position: absolute
+  top: 50vh
+  color: $secondary-text-color
+  text-align: center

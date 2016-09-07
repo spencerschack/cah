@@ -1,0 +1,24 @@
+=game-button
+  @extend %-game-button
+%-game-button
+  +viewport-padding
+  width: 100vw
+  box-sizing: border-box
+  position: absolute
+  +share(top, right, 0)
+  text-align: right
+  color: $brand-color
+  font-weight: bold
+  cursor: pointer
+
+  +transition(height, top, 250ms)
+  line-height: $game-players-title-height
+
+  &.is-closed
+    line-height: $game-players-membership-height
+
+  &.is-hidden
+    top: -$game-players-title-height
+
+  &.is-hidden.is-closed
+    top: -$game-players-membership-height

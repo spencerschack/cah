@@ -1,26 +1,30 @@
+# == Schema Information
+#
+# Table name: memberships
+#
+#  id              :integer          not null, primary key
+#  player_id       :integer          not null
+#  game_id         :integer          not null
+#  score           :integer          default(0), not null
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
+#  acknowledged_id :integer
+#
+
 class Membership < ApplicationRecord
 
   belongs_to :player
-  belongs_to :first_answer, class_name: 'Answer'
-  belongs_to :second_answer, class_name: 'Answer'
-  belongs_to :third_answer, class_name: 'Answer'
   belongs_to :game
-  has_many :answer_memberships
-  has_many :answers, through: :answer_memberships
+  has_many :answer_orderings, dependent: :destroy
+  has_many :answers, through: :answer_orderings
 
-  after_create :draw_up!
-
-  def current?
-    game.membership == self
+  def score
+    game.rounds.where(winner: self).count
   end
 
-  def draw_up!
-    to_draw = game.question.draw + 10 - answers.count
-    answers << to_draw.times.map{ game.answer_orderings.pull }
-  end
-
-  def unanswer!
-    update!(first_answer: nil, second_answer: nil, third_answer: nil)
+  def draw!
+    draw = 10 + game.draw - answer_orderings.count
+    draw.times { game.answer_orderings.draw!(self) }
   end
 
 end

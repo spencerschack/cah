@@ -7,7 +7,7 @@ class CreateAnswerOrderings < ActiveRecord::Migration[5.0]
 
       t.timestamps
     end
-    add_column :answer_orderings, :pile, :pile, index: true, null: false
+    add_column :answer_orderings, :pile, :pile, index: true
     add_index :answer_orderings, [:answer_id, :game_id], unique: true
   end
 end
