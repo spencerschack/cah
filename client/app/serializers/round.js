@@ -3,7 +3,9 @@ import ApplicationSerializer from './application';
 export default ApplicationSerializer.extend({
 
   attrs: {
-    submissions: {serialize: false}
+    question: {serialize: false},
+    game: {serialize: false},
+    czar: {serialize: false}
   }
 
 });

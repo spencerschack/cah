@@ -9,13 +9,16 @@ export default Mixin.create({
   subscription: service(),
 
   afterModel(model) {
+    this.unsubscribe();
     get(this, 'subscription').subscribe(model);
+    set(this, 'subscribedModel', model);
   },
 
   @on('deactivate')
   unsubscribe() {
-    const model = this.modelFor(this.routeName);
-    get(this, 'subscription').unsubscribe(model);
+    const model = get(this, 'subscribedModel');
+    if(model)
+      get(this, 'subscription').unsubscribe(model);
   }
 
 });

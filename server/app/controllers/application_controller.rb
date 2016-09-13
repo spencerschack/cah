@@ -18,4 +18,16 @@ class ApplicationController < JSONAPI::ResourceControllerMetal
     end
   end
 
+  def render_results(operation_results)
+    response_doc = create_response_document(operation_results)
+
+    render_options = {
+      status: response_doc.status,
+      json:   response_doc.contents,
+      content_type: JSONAPI::MEDIA_TYPE
+    }
+
+    render(render_options)
+  end
+
 end

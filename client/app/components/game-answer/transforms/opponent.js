@@ -17,7 +17,7 @@ export default Transform.extend(
   radius,
   scale,
 
-  @computed('card.answerOrdering.{game.opponents.[],membership}')
+  @computed('answerOrdering.{game.opponents.[],membership}')
   theta(submitters, submitter) {
     const index = submitters.indexOf(submitter);
     const position = index / (submitters.length - 1);

@@ -13,7 +13,7 @@ export default Component.extend({
   session: service(),
 
   @alias('session.player') player,
-
+  @alias('round.game') game,
   @equal('game.memberships.length', 1) gameNeedsMemberships,
 
   @computed('game.players.[]', 'player')

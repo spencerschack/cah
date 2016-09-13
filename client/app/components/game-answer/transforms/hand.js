@@ -1,49 +1,44 @@
 import computed, {alias} from 'ember-computed-decorators';
-import get from 'ember-metal/get';
-import Transform from './base';
+import Mixin from 'ember-metal/mixin';
+import set from 'ember-metal/set';
+import {hand as zIndexBase} from './z-index-bases';
 
-const angle = 0.143;
-const scale = 0.55;
-const radius = 350;
-
-export default Transform.extend({
+export default Mixin.create({
 
   transformBindings: [
-    'card.offsetX:translateX(%)',
-    'card.offsetY:translateY(%)',
     'translateX(vw)',
     'translateY(vw)',
     'rotateZ(rad)',
-    'rotateFix:rotateZ(rad)',
     'scale',
   ],
 
-  scale,
+  angle: 0.143,
+  scale: 0.55,
+  radius: 350,
+  zIndexBase,
 
-  @alias('card.answerOrdering.handIndex') index,
+  @computed('hand.[]', 'answerOrdering')
+  index(hand, answerOrdering) {
+    return hand.indexOf(answerOrdering);
+  },
 
-  @computed('card.answerOrdering.handIndex', 'card.position')
+  @computed('index', 'position')
   relativePosition(index, position) {
     return index - position;
   },
 
-  @computed('rotateZ')
-  translateX(rotateZ) {
+  @computed('rotateZ', 'radius', 'scale')
+  translateX(rotateZ, radius, scale) {
     return Math.sin(rotateZ) * radius - (1 - scale) * 50 + 7;
   },
 
-  @computed('rotateZ')
-  translateY(rotateZ) {
-    return radius * (1 - Math.cos(rotateZ));
+  @computed('rotateZ', 'radius')
+  translateY(rotateZ, radius) {
+    return (1 - Math.cos(rotateZ)) * radius;
   },
 
-  @computed('card.offsetX')
-  rotateFix(offset) {
-    return angle * offset / 50;
-  },
-
-  @computed('relativePosition')
-  rotateZ(relativePosition) {
+  @computed('relativePosition', 'angle')
+  rotateZ(relativePosition, angle) {
     let rotateZ = angle * relativePosition;
     if(relativePosition < 0)
       rotateZ /= 3;
@@ -52,9 +47,9 @@ export default Transform.extend({
     return rotateZ;
   },
 
-  @computed('index')
-  zIndex(index) {
-    return index + 1;
+  @computed('index', 'zIndexBase')
+  zIndex(index, zIndexBase) {
+    return index + zIndexBase;
   }
 
 });

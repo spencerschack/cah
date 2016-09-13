@@ -1,40 +1,34 @@
 import Ember from 'ember';
 import get from 'ember-metal/get';
-import {defineProperty} from 'ember-platform';
-import {map, on, observes} from 'ember-computed-decorators';
-import computed from 'ember-computed';
+import {on, observes} from 'ember-computed-decorators';
+import {delegateTo} from '../../../utils/decorators';
+import Bindings from '../../mixins/bindings';
 
-const bindingMatcher = /([\w\.]+)(?::(\w+))?(?:\(([^)]+)\))?/;
+export default Ember.Object.extend(
+  Ember.Evented,
+  Bindings('transform', {prefix: '(', suffix: ')', separator: ' '}),
+{
 
-function parseBinding(binding) {
-  let [, key, property = key, unit = ''] = binding.match(bindingMatcher);
-  return {key, property, unit};
-}
+  @delegateTo('component') answerOrdering,
+  @delegateTo('component') round,
+  @delegateTo('component') submission,
+  @delegateTo('component') element,
+  @delegateTo('round') game,
+  @delegateTo('answerOrdering') membership,
 
-export default Ember.Object.extend({
-
-  zIndex: 'auto',
-  opacity: 1,
-  transformBindings: [],
-
-  @map('transformBindings', parseBinding) transformNames,
-
-  @on('init')
-  setTransformBindings() {
-    const keys = get(this, 'transformNames').mapBy('key');
-    Ember.mixin(this, {transform: computed(...keys, this.buildTransform)});
-  },
-
-  buildTransform() {
-    return get(this, 'transformNames').map(({key, property, unit}) => {
-      return `${property}(${get(this, key)}${unit})`;
-    }).join(' ');
-  },
-
-  @on('card.willDestroyElement')
-  @observes('card.transformer')
+  @on('willDestroyElement')
+  @observes('component.state')
   teardown() {
     this.destroy();
+  },
+
+  trigger(name, ...args) {
+    if(this[name]) this[name](...args);
+    return this._super(name, ...args);
+  },
+
+  sendAction(...args) {
+    get(this, 'component').sendAction(...args);
   }
 
 });

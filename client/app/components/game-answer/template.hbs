@@ -1,4 +1,6 @@
-{{break-newlines answerOrdering.answer}}
-<div class="game-answer-back">
-  1
-</div>
+{{break-newlines answerOrdering.answer.text}}
+{{#if state.pileNumber}}
+  <div class="game-answer-back">
+    {{state.pileNumber}}
+  </div>
+{{/if}}

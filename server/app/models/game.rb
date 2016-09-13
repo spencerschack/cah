@@ -22,7 +22,7 @@ class Game < ApplicationRecord
     -> { extending Question::Extensions }, through: :question_orderings
   has_many :answers,
     -> { extending Answer::Extensions }, through: :answer_orderings
-  has_many :rounds
+  has_many :rounds, dependent: :destroy
 
   after_create { questions.populate! }
   after_create { answers.populate! }

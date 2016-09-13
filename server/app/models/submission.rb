@@ -38,13 +38,13 @@ class Submission < ApplicationRecord
 
   def round_not_ended?
     if round.winner
-      errors.add :round, 'has has ended'
+      errors.add :round, 'has ended'
     end
   end
 
   def count_not_more_than_pick?
-    submissions_count = submitter.submissions.where(round: round).count + 1
-    unless submissions_count > round.game.question.pick
+    submissions_count = submitter.submissions.where(round: round).count
+    unless submissions_count < round.question.pick
       errors.add :base, 'cannot submit more than allowed'
     end
   end

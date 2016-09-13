@@ -6,10 +6,8 @@
   background: black
   color: white
 
-  transition: bottom $transition-duration
-  // Use `bottom` not `top`, otherwise the element is not ensured to be below
-  // the viewport boundary because of the `transition` property.
-  bottom: -$game-players-membership-height
+  transition: top $transition-duration
+  top: $game-players-membership-height
 
   &.is-hidden
-    bottom: -100vh
+    top: 100vh

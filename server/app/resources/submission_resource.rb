@@ -10,15 +10,20 @@ class SubmissionResource < ApplicationResource
 
   after_create :notify!
 
-  def submitter_id= value
-    forbidden! unless Membership.find_by(id: value)&.player == current_player
-    @model.submitter_id = value
+  authenticate :current_player, on: :create
+
+  validate :answer_ordering do |answer_ordering|
+    answer_ordering.membership.player == current_player
+  end
+
+  validate :submitter do |submitter|
+    submitter.player == current_player
   end
 
   private
 
   def notify!
-    GameChannel.broacast_json @model.round.game, @model
+    GameChannel.broadcast_json @model.round.game, @model
   end
 
 end

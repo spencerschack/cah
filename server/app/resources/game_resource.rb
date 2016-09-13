@@ -10,6 +10,8 @@ class GameResource < ApplicationResource
 
   after_create :add_current_player!
 
+  after_update :notify!
+
   authenticate :current_player?, on: :create
 
   private
@@ -21,6 +23,10 @@ class GameResource < ApplicationResource
   def add_current_player!
     @model.memberships.create!(player: current_player)
     @model.rounds.create!
+  end
+
+  def notify!
+    GameChannel.broadcast_json @model, @model
   end
 
 end

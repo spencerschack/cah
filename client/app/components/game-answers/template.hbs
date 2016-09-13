@@ -1,4 +1,5 @@
-{{#each game.answerOrderings as |answerOrdering|}}
-  {{game-answer answerOrdering=answerOrdering
-    position=position}}
+{{#each round.game.answerOrderings as |answerOrdering|}}
+  {{game-answer round=round answerOrdering=answerOrdering position=position
+    on-submit=(action on-submit)
+    on-acknowledge=(action on-acknowledge)}}
 {{/each}}

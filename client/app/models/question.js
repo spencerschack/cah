@@ -5,5 +5,5 @@ export default Model.extend({
 
   text: attr('string'),
   pick: attr('number')
-
+  
 });

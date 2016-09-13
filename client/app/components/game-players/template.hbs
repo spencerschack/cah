@@ -2,7 +2,8 @@
   Players
 </h1>
 {{#each game.memberships as |membership|}}
-  <div class="game-players-membership {{if membership.isCzar "is-czar"}} ">
+  <div class="game-players-membership
+    {{~if (eq membership round.czar) " is-czar"}} ">
     <span class="game-players-czar-label"></span>
     <span class="game-players-name">
       {{membership.player.name}}

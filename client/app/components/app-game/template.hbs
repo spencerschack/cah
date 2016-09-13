@@ -1,7 +1,7 @@
-{{game-players game=game
+{{game-players round=round
   isClosed=(not (or hasToJoin isMenuOpen))}}
 
-{{game-question question=game.currentRound.question
+{{game-question question=round.question
   isHidden=(or hasToJoin isMenuOpen)}}
 
 {{game-menu-button action=(action "toggle")
@@ -11,4 +11,7 @@
 {{game-join-button action=(action "join")
   isHidden=(not hasToJoin)}}
 
-{{game-answers game=game}}
+{{game-answers round=round
+  isHidden=(or hasToJoin isMenuOpen)
+  on-submit=(action "submit")
+  on-acknowledge=(action on-acknowledge)}}

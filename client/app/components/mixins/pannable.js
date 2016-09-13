@@ -9,7 +9,7 @@ const axis = {right: 'x', left: 'x', up: 'y', down: 'y'};
 
 export default Mixin.create({
 
-  isPanning: false,
+  panMoved: false,
   panningDirection: null,
   lastPanEvent: null,
 
@@ -30,10 +30,11 @@ export default Mixin.create({
 
   @on('touchMove')
   triggerPanMove(event) {
-    set(this, 'isPanning', true);
+    set(this, 'panMoved', true);
     const lastPanEvent = get(this, 'lastPanEvent');
-    const deltaX = event.deltaX = event.pageX - lastPanEvent.pageX;
-    const deltaY = event.deltaY = event.pageY - lastPanEvent.pageY;
+    const {offsetHeight: height, offsetWidth: width} = this.element;
+    const deltaX = event.deltaX = (event.pageX - lastPanEvent.pageX) / width;
+    const deltaY = event.deltaY = (event.pageY - lastPanEvent.pageY) / height;
     let direction = get(this, 'panningDirection');
     if(!direction) {
       const angle = (Math.atan2(-deltaY, deltaX) + 2 * Math.PI) % (2 * Math.PI);
@@ -53,8 +54,8 @@ export default Mixin.create({
   @on('touchEnd')
   triggerPanEnd(event) {
     set(this, 'lastPanEvent', null);
-    if(get(this, 'isPanning')) {
-      set(this, 'isPanning', false);
+    if(get(this, 'panMoved')) {
+      set(this, 'panMoved', false);
       this.trigger('panEnd', event);
       set(this, 'panningDirection', null);
     } else {

@@ -1,7 +1,7 @@
 .game-players
   position: relative
   top: 0
-  transition: top 250ms
+  transition: top $transition-duration
 
   &.is-closed
     top: -($game-players-title-height + 1px)
@@ -19,7 +19,7 @@
   +medium-weight
   line-height: $game-players-membership-height
   border-bottom: $separator-border
-  transition: border-bottom-color 250ms
+  transition: border-bottom-color $transition-duration
 
   .game-players.is-closed &
     border-bottom-color: transparent
@@ -37,7 +37,7 @@
 
 .game-players-score
   float: right
-  transition: opacity 250ms
+  transition: opacity $transition-duration
 
   .game-players.is-closed &
     opacity: 0

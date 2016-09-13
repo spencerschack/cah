@@ -10,12 +10,28 @@
   @extend %game-answer-face
   transform-style: preserve-3d
 
-  +transition(transform, bottom, 250ms)
-  .game-answers.is-panning &
-    transition: none
+  +transition(transform, bottom, $transition-duration)
 
-  &.is-state-hand
+  &.is-state-winner
+    width: 90vw
+
+  &.is-state-player-hand,
+  &.is-state-czar-hand,
+  &.is-state-observer-hand
     bottom: -20vw
+
+  &.is-state-player-hand
+
+    .app-game.is-round-submitted &,
+    .app-game.is-player-submitted &,
+    .app-game.is-czar &
+      bottom: -120vw
+
+  &.is-state-czar-hand,
+  &.is-state-observer-hand
+
+    .app-game.has-winner &
+      bottom: -120vw
 
   &.is-state-pile
     bottom: 10vw

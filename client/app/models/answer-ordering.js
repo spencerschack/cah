@@ -1,21 +1,17 @@
 import Model from 'ember-data/model';
 import attr from 'ember-data/attr';
-import {belongsTo} from 'ember-data/relationships';
+import {belongsTo, hasMany} from 'ember-data/relationships';
 import computed from 'ember-computed-decorators';
 
 export default Model.extend({
 
-  pile: attr('string'),
-  position: attr('number'),
-  answer: attr('string'),
+  isPanning: false,
+
   updatedAt: attr('date'),
 
+  answer:     belongsTo({async: false}),
   game:       belongsTo({async: false}),
   membership: belongsTo({async: false}),
-
-  @computed('membership.answerOrderings.[]')
-  handIndex(answerOrderings) {
-    return answerOrderings.indexOf(this);
-  }
+  submissions: hasMany({async: false})
 
 });

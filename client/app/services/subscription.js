@@ -1,3 +1,4 @@
+import $ from 'jquery';
 import Service from 'ember-service';
 import get from 'ember-metal/get';
 import set from 'ember-metal/set';
@@ -35,6 +36,21 @@ export default Service.extend({
   },
 
   received(data) {
+    const store = get(this, 'store');
+    if($.active === 0) {
+      this.push(data);
+    } else {
+      $(document).one('ajaxComplete', () => {
+        if($.active === 1) { // The current request that just 'ajaxComplete'ed.
+          this.push(data);
+        } else {
+          this.received(data);
+        }
+      });
+    }
+  },
+
+  push(data) {
     const store = get(this, 'store');
     data.forEach(item => store.pushPayload(item));
   }

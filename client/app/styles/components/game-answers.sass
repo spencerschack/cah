@@ -3,4 +3,9 @@
   height: 100vh
   overflow: hidden
   position: absolute
+
+  transition: top $transition-duration
   top: $game-players-membership-height
+
+  &.is-hidden
+    top: 100vh

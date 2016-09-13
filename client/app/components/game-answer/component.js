@@ -1,69 +1,65 @@
 import Component from 'ember-component';
 import get from 'ember-metal/get';
 import set from 'ember-metal/set';
-import computed from 'ember-computed-decorators';
-import StyledComponentMixin from 'ember-style-bindings/mixins/styled-component';
+import computed, {alias} from 'ember-computed-decorators';
+import {last} from '../../utils/decorators';
+import Stylable from '../mixins/stylable';
 import Pannable from '../mixins/pannable';
-import transforms from './transforms';
+import states from './transforms';
 
 export default Component.extend(
-  StyledComponentMixin,
+  Stylable,
   Pannable,
 {
 
   classNameBindings: ['stateClass'],
 
-  offsetX: 0,
-  offsetY: 0,
-
   styleBindings: [
-    'transformer.transform:transform',
-    'transformer.opacity:opacity',
-    'transformer.zIndex:zIndex',
+    'state.transform:transform',
+    'state.transition:transition',
+    'state.zIndex:zIndex',
   ],
 
-  @computed('answerOrdering.membership.{,player.isPlayer}')
-  state(membership, isPlayer) {
-    if(!membership) return 'pile';
-    return isPlayer ? 'hand' : 'opponent';
-  },
-
-  @computed('state')
-  stateClass(state) {
-    return `is-state-${state}`;
-  },
-
-  @computed('state')
-  transformer(state) {
-    return transforms[state].create({card: this});
-  },
-
-  tap() {
-    if(get(this, 'state') === 'hand') {
-      const handIndex = get(this, 'answerOrdering.handIndex');
-      if(get(this, 'position') === handIndex) {
-        // TODO: bounce
-      } else {
-        set(this, 'position', handIndex);
-      }
+  @computed(
+    'submission.submitter',
+    'answerOrdering.membership',
+    'round.{czar.isPlayer,isSubmitted}',
+    'isWinner')
+  stateName(submitter, membership, playerIsCzar, roundIsSubmitted, isWinner) {
+    if(submitter) {
+      if(isWinner) return 'winner';
+      if(!roundIsSubmitted) return 'pile'
+      return playerIsCzar ? 'czarHand' : 'observerHand';
     }
-  },
-
-  panUp({deltaX, deltaY}) {
-    deltaX *= 100 / this.element.offsetWidth;
-    deltaY *= 100 / this.element.offsetHeight;
-    const offsetY = get(this, 'offsetY');
-    if(offsetY > 0) deltaY /= 4;
-    this.incrementProperty('offsetX', deltaX);
-    this.incrementProperty('offsetY', deltaY);
-  },
-
-  panEnd() {
-    if(get(this, 'offsetY') < -50) {
-      set(this, 'answerOrdering.membership', null);
+    if(membership) {
+      return get(membership, 'isPlayer') ? 'playerHand' : 'opponent';
     }
-    set(this, 'offsetX', 0);
-    set(this, 'offsetY', 0);
+    return last;
+  },
+
+  @computed('stateName')
+  stateClass(name) {
+    return 'is-state-' + name.dasherize();
+  },
+
+  @computed('stateName')
+  state(name) {
+    return states[name].create({component: this});
+  },
+
+  @computed('round.submissions.[]', 'answerOrdering')
+  submission(submissions, answerOrdering){
+    return submissions.findBy('answerOrdering', answerOrdering);
+  },
+
+  @computed('submission.submitter', 'round.winner')
+  isWinner(submitter, winner) {
+    return winner && submitter === winner;
+  },
+
+  trigger(...args) {
+    get(this, 'state').trigger(...args);
+    return this._super(...args);
   }
 
 });

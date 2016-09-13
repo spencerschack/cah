@@ -4,18 +4,18 @@ module ApplicationCable
 
     delegate :serialize, to: :class
 
-    def self.broadcast_json target, *records, **options
+    def self.broadcast_json target, records, **options
       broadcast_to target, serialize(records, **options)
     end
 
-    def transmit_json *records, **options
+    def transmit_json records, **options
       transmit serialize(records, **options)
     end
 
     private
 
     def self.serialize records, **options
-      records.map do |record|
+      Array.wrap(records).map do |record|
         ApplicationResource.serialize_to_hash(record, options)
       end
     end

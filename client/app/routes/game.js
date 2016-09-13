@@ -6,8 +6,9 @@ import SubscriptionRoute from './mixins/subscription';
 
 const include = [
   'memberships.player',
-  'memberships.answer-orderings',
-  'rounds.submissions'
+  'memberships.answer-orderings.answer',
+  'rounds.submissions',
+  'rounds.question'
 ].join(',');
 
 export default Route.extend(
@@ -27,6 +28,16 @@ export default Route.extend(
     } else {
       this._super(...arguments);
     }
+  },
+
+  actions: {
+    
+    acknowledge() {
+      const game = this.modelFor(this.routeName);
+      const round = get(game, 'currentRound');
+      this.transitionTo('game.round', round);
+    }
+  
   }
 
 });
