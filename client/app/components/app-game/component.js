@@ -9,16 +9,23 @@ export default Component.extend({
   classNameBindings: [
     'isRoundSubmitted',
     'isPlayerSubmitted',
-    'isCzar'
+    'isAcknowledging',
+    'isCzar',
+    'hasWinner'
   ],
 
   isMenuOpen: false,
-  
-  @alias('round.game') game,
+  isAcknowledging: false,
+
   @not('game.hasPlayer') hasToJoin,
   @alias('round.isSubmitted') isRoundSubmitted,
   @alias('round.czar.isPlayer') isCzar,
   @bool('round.winner') hasWinner,
+
+  @computed
+  round() {
+    return get(this, 'game.currentRound');
+  },
 
   @computed('game.playerMembership.submissions.[]', 'round', 'round.pick')
   isPlayerSubmitted(submissions, round, pick) {
@@ -28,9 +35,18 @@ export default Component.extend({
   },
 
   actions: {
-    
+
     toggle() {
       this.toggleProperty('isMenuOpen');
+    },
+
+    acknowledging() {
+      set(this, 'isAcknowledging', true);
+    },
+
+    acknowledged() {
+      this.notifyPropertyChange('round');
+      set(this, 'isAcknowledging', false);
     },
 
     join() {

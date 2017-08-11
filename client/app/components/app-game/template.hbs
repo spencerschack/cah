@@ -1,17 +1,14 @@
-{{game-players round=round
-  isClosed=(not (or hasToJoin isMenuOpen))}}
+{{game-question round=game.currentRound}}
+{{#if (not (eq round game.currentRound))}}
+  {{game-question round=round
+    acknowledgeProgress=acknowledgeProgress
+    class="has-winner"}}
+{{/if}}
 
-{{game-question question=round.question
-  isHidden=(or hasToJoin isMenuOpen)}}
-
-{{game-menu-button action=(action "toggle")
-  isHidden=hasToJoin
-  isClosed=(not isMenuOpen)}}
-
-{{game-join-button action=(action "join")
-  isHidden=(not hasToJoin)}}
+{{game-status round=round}}
 
 {{game-answers round=round
   isHidden=(or hasToJoin isMenuOpen)
   on-submit=(action "submit")
-  on-acknowledge=(action on-acknowledge)}}
+  on-acknowledging=(action "acknowledging")
+  on-acknowledged=(action "acknowledged")}}

@@ -21,8 +21,9 @@ class GameResource < ApplicationResource
   end
 
   def add_current_player!
-    @model.memberships.create!(player: current_player)
+    membership = @model.memberships.create!(player: current_player)
     @model.rounds.create!
+    membership.draw!
   end
 
   def notify!

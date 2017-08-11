@@ -1,5 +1,8 @@
-.app-intro-title
+.app-intro
+  color: white
   +viewport-padding
+
+.app-intro-title
   +medium-weight
   margin-top: 10vh
   margin-bottom: 20vh
@@ -8,11 +11,9 @@
   line-height: 15vw
 
 .app-intro-salutation
-  +viewport-padding
   +medium-weight
 
 .app-intro-license
-  +viewport-padding
   position: absolute
   bottom: 0
   color: $secondary-text-color
@@ -30,6 +31,7 @@
   text-align: center
   text-decoration: none
   color: white
+  cursor: pointer
 
   &:hover
     background: $brand-hover-color
@@ -38,13 +40,13 @@
     background: $brand-active-color
 
 .app-intro-label
-  +viewport-padding
   +medium-weight
   display: block
   margin-bottom: 0.25rem
 
 .app-intro-input
-  +viewport-padding
   width: 100%
+  padding: 0 0.5rem
+  box-sizing: border-box
   margin-bottom: 0.75rem
   +share(padding-top, padding-bottom, 0.75rem)

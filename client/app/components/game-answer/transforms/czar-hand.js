@@ -12,7 +12,7 @@ export default Transform.extend(
 
   @delegateTo('round') isGroupPanning,
 
-  @on('panEnd')
+  @on('panEnd', 'tap')
   updateGamePosition() {
     const game = get(this, 'game');
     if(get(game, 'dirtyType'))

@@ -12,10 +12,12 @@ export default Mixin.create({
   panMoved: false,
   panningDirection: null,
   lastPanEvent: null,
+  firstPanEvent: null,
 
   @on('touchStart', 'mouseDown')
   triggerPanStart(event) {
     event.preventDefault();
+    set(this, 'firstPanEvent', event);
     set(this, 'lastPanEvent', event);
     this.trigger('panStart', event);
     if(event.type === "mousedown") {
@@ -30,25 +32,29 @@ export default Mixin.create({
 
   @on('touchMove')
   triggerPanMove(event) {
-    set(this, 'panMoved', true);
-    const lastPanEvent = get(this, 'lastPanEvent');
-    const {offsetHeight: height, offsetWidth: width} = this.element;
-    const deltaX = event.deltaX = (event.pageX - lastPanEvent.pageX) / width;
-    const deltaY = event.deltaY = (event.pageY - lastPanEvent.pageY) / height;
+    const firstPanEvent = get(this, 'firstPanEvent');
+    const dX = event.pageX - firstPanEvent.pageX;
+    const dY = event.pageY - firstPanEvent.pageY;
     let direction = get(this, 'panningDirection');
-    if(!direction) {
-      const angle = (Math.atan2(-deltaY, deltaX) + 2 * Math.PI) % (2 * Math.PI);
+    if(!direction && Math.sqrt(dX * dX + dY * dY) > 10) {
+      set(this, 'panMoved', true);
+      const angle = (Math.atan2(-dY, dX) + 2 * Math.PI) % (2 * Math.PI);
       const quadrant = Math.round(angle / (Math.PI / 2)) % 4;
       direction = set(this, 'panningDirection', directions[quadrant]);
     }
-    event.direction = direction;
-    const events = [
-      'Move',
-      direction.capitalize(),
-      axis[direction].capitalize()
-    ];
-    events.forEach(name => this.trigger('pan' + name, event));
-    set(this, 'lastPanEvent', event);
+    if(direction) {
+      event.elementDeltaX = dX / this.element.offsetWidth;
+      event.elementDeltaY = dY / this.element.offsetHeight;
+      event.viewportDeltaX = dX / window.innerWidth;
+      event.viewportDeltaY = dY / window.innerHeight;
+      event.direction = direction;
+      const events = [
+        'Move',
+        direction.capitalize(),
+        axis[direction].capitalize()
+      ];
+      events.forEach(name => this.trigger('pan' + name, event));
+    }
   },
 
   @on('touchEnd')

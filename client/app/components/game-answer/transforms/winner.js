@@ -1,6 +1,6 @@
 import get from 'ember-metal/get';
 import set from 'ember-metal/set';
-import computed from 'ember-computed-decorators';
+import computed, {alias} from 'ember-computed-decorators';
 import Transform from './base';
 
 export default Transform.extend({
@@ -17,24 +17,36 @@ export default Transform.extend({
   offsetX: 0,
   offsetY: 0,
 
+  @alias('round.isWinnerPanning') isCardPanning,
+
   @computed('isCardPanning')
   transition(isCardPanning) {
     return isCardPanning ? 'none' : null;
   },
 
-  panLeft({deltaX, deltaY}) {
+  panUp({elementDeltaX, elementDeltaY, viewportDeltaY}) {
     set(this, 'isCardPanning', true);
-    if(get(this, 'offsetX') > 0) deltaX /= 4;
-    this.incrementProperty('offsetX', deltaX * 100);
-    this.incrementProperty('offsetY', deltaY * 100 / 4);
+    if(get(this, 'offsetY') > 0) elementDeltaY /= 4;
+    set(this, 'offsetX', elementDeltaX * 100 / 4);
+    set(this, 'offsetY', elementDeltaY * 100);
+    this.acknowledgeProgress(-viewportDeltaY);
   },
 
   panEnd() {
     set(this, 'isCardPanning', false);
-    if(get(this, 'offsetX') < -0.5)
-      this.sendAction('on-acknowledge');
-    set(this, 'offsetX', 0);
-    set(this, 'offsetY', 0);
+    if(get(this, 'offsetY') < -50) {
+      this.sendAction('on-acknowledging');
+      get(this, 'component').one('transitionEnd',
+        () => this.sendAction('on-acknowledged'));
+    } else {
+      set(this, 'offsetX', 0);
+      set(this, 'offsetY', 0);
+      this.acknowledgeProgress(0);
+    }
+  },
+
+  acknowledgeProgress(progress) {
+    set(this, 'round.acknowledgeProgress', progress);
   }
 
 });

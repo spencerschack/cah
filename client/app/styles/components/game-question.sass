@@ -1,13 +1,14 @@
+$game-question--height: 50vh
+
 .game-question
   +card
   width: 100vw
-  height: 100vh
+  height: $game-question--height
+  top: 0
   box-sizing: border-box
   background: black
   color: white
+  +transition(transform, top, $transition-duration)
 
-  transition: top $transition-duration
-  top: $game-players-membership-height
-
-  &.is-hidden
-    top: 100vh
+  .app-game.is-acknowledging &.has-winner
+    top: -$game-question--height

@@ -7,6 +7,8 @@ import {delegateTo} from '../utils/decorators';
 export default Model.extend({
 
   isGroupPanning: false,
+  isWinnerPanning: false,
+  acknowledgeProgress: 0,
 
   @delegateTo('question') pick,
 

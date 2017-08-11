@@ -44,7 +44,7 @@ class AnswerOrdering < ApplicationRecord
   private
 
   def pile_or_membership?
-    unless membership_id? ^ pile?
+    unless membership_id? != pile?
       errors.add(:base, 'must set either pile or membership_id')
     end
   end

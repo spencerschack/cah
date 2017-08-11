@@ -30,7 +30,7 @@ export default Component.extend({
   },
 
   actions: {
-    
+
     start() {
       this.createRecord('game').then(::this.transitionToGame);
     },
@@ -46,7 +46,7 @@ export default Component.extend({
         }
       });
     }
-  
+
   }
 
 });

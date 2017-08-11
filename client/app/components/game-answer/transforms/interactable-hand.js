@@ -47,19 +47,19 @@ export default Mixin.create(
     }
   },
 
-  panUp({deltaX, deltaY}) {
+  panUp({elementDeltaX, elementDeltaY}) {
     set(this, 'isCardPanning', true);
-    if(get(this, 'offsetY') > 0) deltaY /= 4;
-    this.incrementProperty('offsetX', deltaX * 100);
-    this.incrementProperty('offsetY', deltaY * 100);
+    if(get(this, 'offsetY') > 0) elementDeltaY /= 4;
+    set(this, 'offsetX', elementDeltaX * 100);
+    set(this, 'offsetY', elementDeltaY * 100);
   },
 
-  panX({deltaX}) {
+  panX({elementDeltaX}) {
     set(this, 'isGroupPanning', true);
     const position = get(this, 'position');
     if(position < 0 || position > get(this, 'maxPosition'))
-      deltaX /= 4;
-    this.incrementProperty('position', -deltaX);
+      elementDeltaX /= 4;
+    set(this, 'position', -elementDeltaX);
   },
 
   panEnd() {

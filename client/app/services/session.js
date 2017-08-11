@@ -31,7 +31,7 @@ export default Service.extend({
   createPlayer(attrs) {
     const player = get(this, 'store').createRecord('player', attrs);
     return player.save().then(player => {
-      set(this, 'token', get(player, 'token'));
+      set(this, 'storage.token', get(player, 'token'));
       return set(this, 'player', player);
     });
   }

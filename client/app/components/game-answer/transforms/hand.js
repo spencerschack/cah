@@ -1,5 +1,6 @@
 import computed, {alias} from 'ember-computed-decorators';
 import Mixin from 'ember-metal/mixin';
+import get from 'ember-metal/get';
 import set from 'ember-metal/set';
 import {hand as zIndexBase} from './z-index-bases';
 

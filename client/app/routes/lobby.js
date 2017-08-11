@@ -18,11 +18,11 @@ export default Route.extend({
   },
 
   actions: {
-    
+
     created(game) {
-      this.transitionTo('game', game);
+      this.transitionTo('game', get(game, 'id'));
     }
-  
+
   }
 
 });

@@ -14,6 +14,10 @@
 
   &.is-state-winner
     width: 90vw
+    bottom: 10vw
+
+    .app-game.is-acknowledging &
+      bottom: 100vh
 
   &.is-state-player-hand,
   &.is-state-czar-hand,
@@ -35,6 +39,9 @@
 
   &.is-state-pile
     bottom: 10vw
+
+  &.is-state-hidden
+    left: -120vw
 
 .game-answer-back
   @extend %game-answer-face

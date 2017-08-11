@@ -1,7 +1,7 @@
 import Component from 'ember-component';
 import get from 'ember-metal/get';
 import set from 'ember-metal/set';
-import computed, {alias} from 'ember-computed-decorators';
+import computed, {alias, on} from 'ember-computed-decorators';
 import {last} from '../../utils/decorators';
 import Stylable from '../mixins/stylable';
 import Pannable from '../mixins/pannable';
@@ -20,21 +20,18 @@ export default Component.extend(
     'state.zIndex:zIndex',
   ],
 
-  @computed(
-    'submission.submitter',
-    'answerOrdering.membership',
-    'round.{czar.isPlayer,isSubmitted}',
-    'isWinner')
-  stateName(submitter, membership, playerIsCzar, roundIsSubmitted, isWinner) {
+  @computed('submission.submitter', 'round.winner', 'round.isSubmitted', 'round.czar.isPlayer', 'answerOrdering.membership.isPlayer')
+  stateName(submitter, winner, isSubmitted, isPlayer) {
     if(submitter) {
-      if(isWinner) return 'winner';
-      if(!roundIsSubmitted) return 'pile'
-      return playerIsCzar ? 'czarHand' : 'observerHand';
+      if(winner === submitter) return 'winner';
+      if(!isSubmitted) return 'pile'
+      return isPlayer ? 'czarHand' : 'observerHand';
     }
+    const membership = get(this, 'answerOrdering.membership');
     if(membership) {
       return get(membership, 'isPlayer') ? 'playerHand' : 'opponent';
     }
-    return last;
+    return 'hidden';
   },
 
   @computed('stateName')
@@ -44,17 +41,22 @@ export default Component.extend(
 
   @computed('stateName')
   state(name) {
-    return states[name].create({component: this});
+    const lastState = get(this, 'lastState');
+    if(lastState) lastState.destroy();
+    const state = states[name].create({component: this});
+    set(this, 'lastState', state);
+    return state;
+  },
+
+  @on('willDestroyElement')
+  teardownState() {
+    const state = get(this, 'state');
+    if(state) state.destroy();
   },
 
   @computed('round.submissions.[]', 'answerOrdering')
   submission(submissions, answerOrdering){
     return submissions.findBy('answerOrdering', answerOrdering);
-  },
-
-  @computed('submission.submitter', 'round.winner')
-  isWinner(submitter, winner) {
-    return winner && submitter === winner;
   },
 
   trigger(...args) {

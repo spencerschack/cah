@@ -36,5 +36,5 @@ export default Model.extend({
   opponents(memberships, player) {
     return memberships.rejectBy('player', player);
   }
-  
+
 });

@@ -23,8 +23,6 @@ class Membership < ApplicationRecord
   has_many :czar_rounds, class_name: 'Round',
     foreign_key: 'czar_id', dependent: :destroy
 
-  after_create :draw!
-
   def draw!
     draw = 10 + game.draw - answer_orderings.count
     draw.times { game.answer_orderings.draw!(self) }

@@ -1,5 +1,5 @@
 <h1 class="app-intro-title">
-  Memes Against Humanity
+  Cards Against Humanity
 </h1>
 {{#if player}}
   <p class="app-intro-salutation">
@@ -12,7 +12,7 @@
   <form {{action "join" name on="submit"}}>
     <label for="name" class="app-intro-label">Choose a name.</label>
     {{input value=name id="name" class="app-intro-input"}}
-    <input type="submit" value={{if game "Join Game" "Start Game"}}>
+    <input type="submit" value={{if game "Join Game" "Start Game"}} class="app-intro-action">
   </form>
 {{/if}}
 <p class="app-intro-license">

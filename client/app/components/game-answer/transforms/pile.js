@@ -1,3 +1,4 @@
+import get from 'ember-metal/get';
 import computed from 'ember-computed-decorators';
 import random from '../../../utils/random';
 import Transform from './base';

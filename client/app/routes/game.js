@@ -18,7 +18,9 @@ export default Route.extend(
   session: service(),
 
   model({game_id}) {
-    return get(this, 'store').findRecord('game', game_id, {include});
+    // Must force reload because the game could have been just created and the
+    // relationships would not have been sideloaded.
+    return get(this, 'store').findRecord('game', game_id, {include, reload: true});
   },
 
   renderTemplate() {
@@ -28,16 +30,6 @@ export default Route.extend(
     } else {
       this._super(...arguments);
     }
-  },
-
-  actions: {
-    
-    acknowledge() {
-      const game = this.modelFor(this.routeName);
-      const round = get(game, 'currentRound');
-      this.transitionTo('game.round', round);
-    }
-  
   }
 
 });
