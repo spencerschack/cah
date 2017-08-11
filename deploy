@@ -1,0 +1,8 @@
+rm -rf server/public/*
+cd client
+ember build -prod -o ../server/public
+cd ../server
+git add public
+git commit -m "built"
+git subtree push --prefix server heroku master
+cd ..
