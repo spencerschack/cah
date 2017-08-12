@@ -2,12 +2,23 @@
   Cards Against Humanity
 </h1>
 {{#if player}}
-  <p class="app-intro-salutation">
-    Welcome, {{player.name}}.
-  </p>
-  <a href="" {{action "start"}} class="app-intro-action">
-    Start game
-  </a>
+  <div class="app-intro-games">
+    {{#each games as |game|}}
+      {{#link-to "game" game class="app-intro-game"}}
+        <div class="app-intro-game-question">
+          {{{game.currentRound.question.text}}}
+        </div>
+        <div class="app-intro-game-players">
+          {{join (map game.players by="name") with=', '}}
+        </div>
+        {{moment-from-now game.createdAt}}
+      {{/link-to}}
+    {{/each}}
+    <a href="" {{action "start"}} class="app-intro-create">
+      <span class="app-intro-create-icon">+</span>
+      <div class="app-intro-create-label">New game</div>
+    </a>
+  </div>
 {{else}}
   <form {{action "join" name on="submit"}}>
     <label for="name" class="app-intro-label">Choose a name.</label>

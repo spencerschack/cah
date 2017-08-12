@@ -6,6 +6,8 @@ import service from 'ember-service/inject';
 
 export default Component.extend({
 
+  classNames: ['app-game'],
+
   classNameBindings: [
     'isRoundSubmitted',
     'isPlayerSubmitted',

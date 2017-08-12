@@ -32,7 +32,10 @@ export default Service.extend({
 
   unsubscribe(model) {
     const subscription = get(model, 'subscription');
-    if(subscription) subscription.unsubscribe();
+    if(subscription) {
+      subscription.unsubscribe();
+      set(model, 'subscription', null);
+    }
   },
 
   received(data) {

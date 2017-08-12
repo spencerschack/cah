@@ -13,7 +13,7 @@ export default Model.extend({
   @delegateTo('question') pick,
 
   question: belongsTo({async: false}),
-  game:     belongsTo({async: false}),
+  game:     belongsTo({async: false, inverse: 'rounds'}),
   czar:     belongsTo('membership', {async: false}),
   winner:   belongsTo('membership', {async: false}),
   submissions: hasMany({async: false}),

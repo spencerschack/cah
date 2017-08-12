@@ -11,7 +11,7 @@ export default Model.extend({
   name: attr('string'),
   token: attr('string'),
 
-  games: hasMany(),
+  games: hasMany({async: false}),
 
   @computed('session.player')
   isPlayer(player) {

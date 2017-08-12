@@ -9,10 +9,12 @@ export default Model.extend({
   session: service(),
 
   viewingPosition: attr('number'),
+  createdAt: attr('date'),
 
   answerOrderings: hasMany({async: false}),
   memberships:     hasMany({async: false}),
   rounds:          hasMany({async: false}),
+  currentRound:    belongsTo('round', {async: false}),
 
   @alias('session.player') player,
   @mapBy('memberships', 'player') players,
@@ -25,11 +27,6 @@ export default Model.extend({
   @computed('players.[]', 'player')
   hasPlayer(players, player) {
     return players.includes(player);
-  },
-
-  @computed('rounds.@each.winner')
-  currentRound(rounds) {
-    return rounds.findBy('winner', null);
   },
 
   @computed('memberships.@each.player', 'player')

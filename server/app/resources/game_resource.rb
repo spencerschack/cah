@@ -1,9 +1,10 @@
 class GameResource < ApplicationResource
 
-  attributes :viewing_position
+  attributes :viewing_position, :created_at
 
   has_many :memberships
   has_many :rounds
+  has_one :current_round
 
   create_fields []
   update_fields [:viewing_position]
@@ -13,6 +14,12 @@ class GameResource < ApplicationResource
   after_update :notify!
 
   authenticate :current_player?, on: :create
+
+  def self.records options = {}
+    if player = options[:context][:current_player]
+      player.games
+    end
+  end
 
   private
 

@@ -10,8 +10,6 @@
 
 class Game < ApplicationRecord
 
-  delegate :czar, :question, to: :current_round
-
   has_many :memberships, dependent: :destroy
   has_many :players, through: :memberships
   has_many :question_orderings,
@@ -23,13 +21,12 @@ class Game < ApplicationRecord
   has_many :answers,
     -> { extending Answer::Extensions }, through: :answer_orderings
   has_many :rounds, dependent: :destroy
+  has_one :current_round, -> { order(created_at: :desc) }, class_name: 'Round'
+  has_one :question, through: :current_round
+  has_one :czar, through: :current_round
 
   after_create { questions.populate! }
   after_create { answers.populate! }
-
-  def current_round
-    rounds.order(created_at: :desc).first
-  end
 
   def draw
     [question.pick - 1, 0].max

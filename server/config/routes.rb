@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
 
-  resources :games, only: [:create, :update, :show]
+  resources :games, only: [:index, :create, :update, :show]
   resources :rounds, only: :update
   resources :memberships, only: [:create, :update]
   resources :submissions, only: :create
@@ -10,5 +10,5 @@ Rails.application.routes.draw do
 
   get '*path' => 'static#ember'
   root to: 'static#ember'
-  
+
 end
