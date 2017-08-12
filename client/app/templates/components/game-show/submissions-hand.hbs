@@ -1,7 +1,0 @@
-{{#unless isCzar}}
-  <div class="game-show--czar-is-choosing">
-    {{czar.name}} is choosing a card:
-  </div>
-{{/unless}}
-{{game-show/hand choices=choices position=position
-  on-choose=(if isCzar "choose") on-position=(if isCzar "position")}}

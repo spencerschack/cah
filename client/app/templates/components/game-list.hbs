@@ -1,6 +1,0 @@
-{{#each games as |game|}}
-  {{#link-to "game" game}}
-    {{game.players.length}} players:
-    {{join (map game.players by="name") with=", "}}
-  {{/link-to}}
-{{/each}}
