@@ -1,25 +1,28 @@
 import Component from 'ember-component';
 import get from 'ember-metal/get';
 import set from 'ember-metal/set';
-import {computed} from 'embe-decorators/object';
+import {computed} from 'ember-decorators/object';
 import {alias} from 'ember-decorators/object/computed';
+import {on} from 'ember-decorators/object/evented';
 
-import Stylable from '../mixins/stylable';
+import StyledComponentMixin from 'ember-style-bindings/mixins/styled-component';
 import Pannable from '../mixins/pannable';
 import states from './transforms';
 
-export default Component.extend(
-  Stylable,
-  Pannable,
-{
+export default class GameAnswerComponent extends Component.extend(StyledComponentMixin, Pannable) {
 
-  classNameBindings: ['stateClass'],
+  classNameBindings = ['stateClass']
 
-  styleBindings: [
-    'state.transform:transform',
-    'state.transition:transition',
-    'state.zIndex:zIndex',
-  ],
+  // styleBindings = [
+  //   'state.transform',
+  //   'state.transition',
+  //   'state.zIndex',
+  // ]
+
+  @computed('state.{transform,transition,zIndex}')
+  style(transform, transition, zIndex) {
+    return {transform, transition: 'none', zIndex};
+  }
 
   @computed('submission.submitter', 'round.winner', 'round.isSubmitted', 'round.czar.isPlayer', 'answerOrdering.membership.isPlayer')
   stateName(submitter, winner, isSubmitted, isPlayer) {
@@ -33,12 +36,12 @@ export default Component.extend(
       return get(membership, 'isPlayer') ? 'playerHand' : 'opponent';
     }
     return 'hidden';
-  },
+  }
 
   @computed('stateName')
   stateClass(name) {
     return 'is-state-' + name.dasherize();
-  },
+  }
 
   @computed('stateName')
   state(name) {
@@ -47,22 +50,22 @@ export default Component.extend(
     const state = states[name].create({component: this});
     set(this, 'lastState', state);
     return state;
-  },
+  }
 
   @on('willDestroyElement')
   teardownState() {
     const state = get(this, 'state');
     if(state) state.destroy();
-  },
+  }
 
   @computed('round.submissions.[]', 'answerOrdering')
   submission(submissions, answerOrdering){
     return submissions.findBy('answerOrdering', answerOrdering);
-  },
+  }
 
   trigger(...args) {
     get(this, 'state').trigger(...args);
     return this._super(...args);
   }
 
-});
+};

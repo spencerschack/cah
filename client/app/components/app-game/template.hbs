@@ -8,7 +8,7 @@
 {{game-status round=round}}
 
 {{game-answers round=round
-  isHidden=(or hasToJoin isMenuOpen)
+  isHidden=(or mustJoin isMenuOpen)
   on-submit=(action "submit")
   on-acknowledging=(action "acknowledging")
   on-acknowledged=(action "acknowledged")}}

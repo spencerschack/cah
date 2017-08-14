@@ -4,26 +4,26 @@ import {computed} from 'ember-decorators/object';
 import {alias} from 'ember-decorators/object/computed';
 import Transform from './base';
 
-export default Transform.extend({
+export default class WinnerTransform extends Transform {
 
-  transformBindings: [
+  transformBindings = [
     'offsetX:translateX(%)',
     'offsetY:translateY(%)',
     'rotateZ(rad)',
     'scale'
-  ],
+  ]
 
-  scale: 0.9,
+  scale = 0.9
 
-  offsetX: 0,
-  offsetY: 0,
+  offsetX = 0
+  offsetY = 0
 
-  @alias('round.isWinnerPanning') isCardPanning,
+  @alias('round.isWinnerPanning') isCardPanning
 
   @computed('isCardPanning')
   transition(isCardPanning) {
     return isCardPanning ? 'none' : null;
-  },
+  }
 
   panUp({elementDeltaX, elementDeltaY, viewportDeltaY}) {
     set(this, 'isCardPanning', true);
@@ -31,7 +31,7 @@ export default Transform.extend({
     set(this, 'offsetX', elementDeltaX * 100 / 4);
     set(this, 'offsetY', elementDeltaY * 100);
     this.acknowledgeProgress(-viewportDeltaY);
-  },
+  }
 
   panEnd() {
     set(this, 'isCardPanning', false);
@@ -44,10 +44,10 @@ export default Transform.extend({
       set(this, 'offsetY', 0);
       this.acknowledgeProgress(0);
     }
-  },
+  }
 
   acknowledgeProgress(progress) {
     set(this, 'round.acknowledgeProgress', progress);
   }
 
-});
+};

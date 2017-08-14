@@ -6,12 +6,9 @@ import Transform from './base';
 import InteractableHand from './interactable-hand';
 import Submission from './submission';
 
-export default Transform.extend(
-  InteractableHand,
-  Submission,
-{
+export default class CzarHandTransform extends Transform.extend(InteractableHand, Submission) {
 
-  @delegateTo('round') isGroupPanning,
+  @delegateTo('round') isGroupPanning
 
   @on('panEnd', 'tap')
   updateGamePosition() {
@@ -20,4 +17,4 @@ export default Transform.extend(
       game.save();
   }
 
-});
+};
