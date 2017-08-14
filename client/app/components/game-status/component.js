@@ -1,6 +1,6 @@
 import Component from 'ember-component';
 import get from 'ember-metal/get';
-import computed from 'ember-computed-decorators';
+import {computed} from 'ember-decorators/object';
 
 export default Component.extend({
 

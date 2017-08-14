@@ -1,6 +1,7 @@
 import JSONAPIAdapter from 'ember-data/adapters/json-api';
 import service from 'ember-service/inject';
-import computed from 'ember-computed-decorators';
+import {computed} from 'ember-decorators/object';
+
 import {filter} from '../utils/object';
 
 export default JSONAPIAdapter.extend({

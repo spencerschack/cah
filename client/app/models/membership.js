@@ -1,24 +1,25 @@
 import Model from 'ember-data/model';
 import attr from 'ember-data/attr';
-import computed from 'ember-computed-decorators';
+import {computed} from 'ember-decorators/object';
+import {belongsTo, hasMany} from 'ember-decorators/data';
+
 import {delegateTo} from '../utils/decorators';
-import {belongsTo, hasMany} from 'ember-data/relationships';
 
-export default Model.extend({
+export default class Membership extends Model {
 
-  position: 0,
-  isGroupPanning: false,
+  position = 0
+  isGroupPanning = false
 
-  game: belongsTo({async: false}),
-  player: belongsTo({async: false}),
-  answerOrderings: hasMany({async: false}),
-  submissions: hasMany({async: false}),
+  @belongsTo({async: false}) game
+  @belongsTo({async: false}) player
+  @hasMany({async: false})   answerOrderings
+  @hasMany({async: false})   submissions
 
-  @delegateTo('player') isPlayer,
+  @delegateTo('player') isPlayer
 
   @computed('game.rounds.@each.winner')
   score(rounds) {
     return rounds.filterBy('winner', this).length;
   }
 
-});
+};

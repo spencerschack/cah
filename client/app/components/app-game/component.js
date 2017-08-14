@@ -1,14 +1,16 @@
 import Component from 'ember-component';
-import computed, {alias, bool, on, not} from 'ember-computed-decorators';
+import {computed} from 'ember-decorators/object';
+import {on} from 'ember-decorators/object/evented';
+import {alias, bool, not} from 'ember-decorators/object/computed';
+
 import get from 'ember-metal/get';
 import set from 'ember-metal/set';
-import service from 'ember-service/inject';
 
 export default Component.extend({
 
-  classNames: ['app-game'],
+  localClassNames: ['app-game'],
 
-  classNameBindings: [
+  localClassNameBindings: [
     'isRoundSubmitted',
     'isPlayerSubmitted',
     'isAcknowledging',

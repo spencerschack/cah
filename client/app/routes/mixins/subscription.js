@@ -1,5 +1,5 @@
 import Mixin from 'ember-metal/mixin';
-import {on} from 'ember-computed-decorators';
+import {on} from 'ember-decorators/object/evented';
 import service from 'ember-service/inject';
 import get from 'ember-metal/get';
 import set from 'ember-metal/set';

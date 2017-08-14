@@ -1,24 +1,26 @@
 import Service from 'ember-service';
 import get from 'ember-metal/get';
-import service from 'ember-service/inject';
 import set from 'ember-metal/set';
 import {storageFor} from 'ember-local-storage';
-import computed, {or} from 'ember-computed';
+import {computed} from 'ember-decorators/object';
+import {or} from 'ember-decorators/object/computed';
+import {service} from 'ember-decorators/service';
 
-export default Service.extend({
+export default class SessionService extends Service {
 
-  store: service(),
+  @service store
 
-  player: null,
+  player = null
 
-  storage: storageFor('session'),
+  storage = storageFor('session')
 
-  token: or('devToken', 'storage.token'),
+  @or('devToken', 'storage.token') token
 
-  devToken: computed(function() {
+  @computed
+  devToken() {
     const match = window.location.search.match(/token=([\w\.-]+)/);
     return match && match[1];
-  }),
+  }
 
   load() {
     if(!get(this, 'token')) return;
@@ -26,7 +28,7 @@ export default Service.extend({
       .find('player', 'current')
       .then(_ => set(this, 'player', _))
       .catch();
-  },
+  }
 
   createPlayer(attrs) {
     const player = get(this, 'store').createRecord('player', attrs);
@@ -36,4 +38,4 @@ export default Service.extend({
     });
   }
 
-});
+};

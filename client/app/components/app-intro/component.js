@@ -1,21 +1,22 @@
 import Component from 'ember-component';
-import computed from 'ember-computed';
+import {action} from 'ember-decorators/object';
+import {alias} from 'ember-decorators/object/computed';
+import {service} from 'ember-decorators/service';
 import get from 'ember-metal/get';
-import service from 'ember-service/inject';
 import set from 'ember-metal/set';
 
-export default Component.extend({
+export default class AppIntroComponent extends Component {
 
-  classNameBindings: ['isLoading'],
+  classNameBindings = ['isLoading']
 
-  store: service(),
-  session: service(),
-  routing: service('-routing'),
+  @service store
+  @service session
+  @service('-routing') routing
 
-  name: '',
-  player: computed.alias('session.player'),
+  name = ''
+  @alias('session.player') player
 
-  isLoading: false,
+  isLoading = false
 
   createRecord(model, attrs) {
     set(this, 'isLoading', true);
@@ -23,30 +24,28 @@ export default Component.extend({
     return record.save().finally(() => {
       set(this, 'isLoading', false);
     });
-  },
+  }
 
   transitionToGame(game) {
     get(this, 'routing.router').transitionTo('game', get(game, 'id'));
-  },
-
-  actions: {
-
-    start() {
-      this.createRecord('game').then(::this.transitionToGame);
-    },
-
-    join(name) {
-      if(!name) return;
-      get(this, 'session').createPlayer({name}).then(() => {
-        const game = get(this, 'game');
-        if(game) {
-          this.transitionToGame(game);
-        } else {
-          this.send('start');
-        }
-      });
-    }
-
   }
 
-});
+  @action
+  start() {
+    this.createRecord('game').then(::this.transitionToGame);
+  }
+
+  @action
+  join(name) {
+    if(!name) return;
+    get(this, 'session').createPlayer({name}).then(() => {
+      const game = get(this, 'game');
+      if(game) {
+        this.transitionToGame(game);
+      } else {
+        this.send('start');
+      }
+    });
+  }
+
+};

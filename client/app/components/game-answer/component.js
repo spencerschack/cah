@@ -1,8 +1,9 @@
 import Component from 'ember-component';
 import get from 'ember-metal/get';
 import set from 'ember-metal/set';
-import computed, {alias, on} from 'ember-computed-decorators';
-import {last} from '../../utils/decorators';
+import {computed} from 'embe-decorators/object';
+import {alias} from 'ember-decorators/object/computed';
+
 import Stylable from '../mixins/stylable';
 import Pannable from '../mixins/pannable';
 import states from './transforms';

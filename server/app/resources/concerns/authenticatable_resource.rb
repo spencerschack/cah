@@ -2,7 +2,6 @@ module AuthenticatableResource
 
   module AuthenticatableMethods
     def forbidden!
-      byebug
       fail ForbiddenError
     end
   end

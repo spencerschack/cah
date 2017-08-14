@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import Mixin from 'ember-metal/mixin';
-import computed, {map} from 'ember-computed';
+import {computed} from 'ember-decorators/object';
+import {map} from 'ember-decorators/object/computed';
 import on from 'ember-evented/on';
 import get from 'ember-metal/get';
 import set from 'ember-metal/set';

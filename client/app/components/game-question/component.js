@@ -1,6 +1,6 @@
 import Component from 'ember-component';
 import Stylable from '../mixins/stylable';
-import computed from 'ember-computed-decorators';
+import {computed} from 'ember-decorators/object';
 
 export default Component.extend(
   Stylable,

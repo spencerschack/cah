@@ -1,11 +1,11 @@
 import Controller from 'ember-controller';
-import computed from 'ember-computed';
-import service from 'ember-service/inject';
+import {alias} from 'ember-decorators/object/computed';
+import {service} from 'ember-decorators/service';
 
-export default Controller.extend({
+export default class ApplicationController extends Controller {
 
-  session: service(),
+  @service session
 
-  currentPlayer: computed.alias('session.player')
+  @alias('session.player') currentPlayer
 
-});
+};

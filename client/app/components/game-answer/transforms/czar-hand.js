@@ -1,5 +1,6 @@
 import get from 'ember-metal/get';
-import {on} from 'ember-computed-decorators';
+import {on} from 'ember-decorators/object/evented';
+
 import {delegateTo} from '../../../utils/decorators';
 import Transform from './base';
 import InteractableHand from './interactable-hand';

@@ -1,6 +1,6 @@
 import Mixin from 'ember-metal/mixin';
 import $ from 'jquery';
-import {on} from 'ember-computed-decorators';
+import {on} from 'ember-decorators/object/evented';
 import get from 'ember-metal/get';
 import set from 'ember-metal/set';
 

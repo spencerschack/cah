@@ -1,4 +1,4 @@
-import computed from 'ember-computed-decorators';
+import {computed} from 'ember-decorators/object';
 import get from 'ember-metal/get';
 import Transform from './base';
 import Polar from './polar';

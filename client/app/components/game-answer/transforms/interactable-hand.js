@@ -1,4 +1,5 @@
-import computed, {or} from 'ember-computed-decorators';
+import {computed} from 'ember-decorators/object';
+import {or} from 'ember-decorators/object/computed';
 import get from 'ember-metal/get';
 import set from 'ember-metal/set';
 import run from 'ember-runloop';

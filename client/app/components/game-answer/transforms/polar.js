@@ -1,5 +1,5 @@
 import Mixin from 'ember-metal/mixin';
-import computed from 'ember-computed-decorators';
+import {computed} from 'ember-decorators/object';
 
 export default Mixin.create({
 

@@ -1,4 +1,5 @@
-import computed, {alias} from 'ember-computed-decorators';
+import {computed} from 'ember-decorators/object';
+import {alias} from 'ember-decorators/object/computed';
 import Mixin from 'ember-metal/mixin';
 import get from 'ember-metal/get';
 import set from 'ember-metal/set';

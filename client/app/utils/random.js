@@ -1,3 +1,5 @@
+import 'npm:seedrandom';
+
 class Random {
 
   constructor(...seeds) {

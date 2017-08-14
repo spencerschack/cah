@@ -1,4 +1,4 @@
-import computed from 'ember-computed-decorators';
+
 import HandTransform from './hand';
 
 export default HandTransform.extend({

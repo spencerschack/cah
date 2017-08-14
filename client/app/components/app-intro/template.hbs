@@ -21,7 +21,7 @@
   </div>
 {{else}}
   <form {{action "join" name on="submit"}}>
-    <label for="name" class="app-intro-label">Choose a name.</label>
+    <label for="name" class="app-intro-label">Choose a username</label>
     {{input value=name id="name" class="app-intro-input"}}
     <input type="submit" value={{if game "Join Game" "Start Game"}} class="app-intro-action">
   </form>
