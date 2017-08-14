@@ -14,7 +14,7 @@ export default Model.extend({
   answerOrderings: hasMany({async: false}),
   submissions: hasMany({async: false}),
 
-  @delegateTo('player') isPlayer,
+  @delegateTo('player') isPlayer: null,
 
   @computed('game.rounds.@each.winner')
   score(rounds) {

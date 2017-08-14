@@ -10,7 +10,7 @@ export default Transform.extend(
   Submission,
 {
 
-  @delegateTo('round') isGroupPanning,
+  @delegateTo('round') isGroupPanning: null,
 
   @on('panEnd', 'tap')
   updateGamePosition() {

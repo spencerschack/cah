@@ -19,10 +19,10 @@ export default Component.extend({
   isMenuOpen: false,
   isAcknowledging: false,
 
-  @not('game.hasPlayer') hasToJoin,
-  @alias('round.isSubmitted') isRoundSubmitted,
-  @alias('round.czar.isPlayer') isCzar,
-  @bool('round.winner') hasWinner,
+  @not('game.hasPlayer') hasToJoin: null,
+  @alias('round.isSubmitted') isRoundSubmitted: null,
+  @alias('round.czar.isPlayer') isCzar: null,
+  @bool('round.winner') hasWinner: null,
 
   @computed
   round() {

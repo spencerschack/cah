@@ -16,8 +16,8 @@ export default Model.extend({
   rounds:          hasMany({async: false}),
   currentRound:    belongsTo('round', {async: false}),
 
-  @alias('session.player') player,
-  @mapBy('memberships', 'player') players,
+  @alias('session.player') player: null,
+  @mapBy('memberships', 'player') players: null,
 
   @computed('memberships.@each.player', 'player')
   playerMembership(memberships, player) {

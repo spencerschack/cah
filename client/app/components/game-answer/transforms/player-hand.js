@@ -8,8 +8,8 @@ export default Transform.extend(
   InteractableHand,
 {
 
-  @delegateTo('membership') position,
-  @delegateTo('membership') isGroupPanning,
+  @delegateTo('membership') position: null,
+  @delegateTo('membership') isGroupPanning: null,
 
   @computed('membership.answerOrderings', 'round.answerOrderings.[]')
   hand(heldByPlayer, submitted) {

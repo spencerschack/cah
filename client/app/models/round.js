@@ -10,7 +10,7 @@ export default Model.extend({
   isWinnerPanning: false,
   acknowledgeProgress: 0,
 
-  @delegateTo('question') pick,
+  @delegateTo('question') pick: null,
 
   question: belongsTo({async: false}),
   game:     belongsTo({async: false, inverse: 'rounds'}),
@@ -18,7 +18,7 @@ export default Model.extend({
   winner:   belongsTo('membership', {async: false}),
   submissions: hasMany({async: false}),
 
-  @mapBy('submissions', 'answerOrdering') answerOrderings,
+  @mapBy('submissions', 'answerOrdering') answerOrderings: null,
 
   @computed('game.memberships.[]', 'czar')
   submitters(memberships, czar) {

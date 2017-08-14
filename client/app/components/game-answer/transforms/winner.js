@@ -17,7 +17,7 @@ export default Transform.extend({
   offsetX: 0,
   offsetY: 0,
 
-  @alias('round.isWinnerPanning') isCardPanning,
+  @alias('round.isWinnerPanning') isCardPanning: null,
 
   @computed('isCardPanning')
   transition(isCardPanning) {

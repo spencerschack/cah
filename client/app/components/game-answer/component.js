@@ -12,6 +12,8 @@ export default Component.extend(
   Pannable,
 {
 
+  classNames: ['game-answer'],
+
   classNameBindings: ['stateClass'],
 
   styleBindings: [

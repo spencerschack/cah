@@ -8,18 +8,12 @@ module.exports = function(defaults) {
       extension: 'sass'
     },
     babel: {
-      stage: 0
+      plugins: [
+        'transform-decorators-legacy',
+        'transform-export-extensions',
+        'transform-function-bind'
+      ]
     }
-  });
-
-  app.import({
-    development: 'bower_components/seedrandom/seedrandom.js',
-    production: 'bower_components/seedrandom/seedrandom.min.js'
-  });
-
-  app.import({
-    development: 'bower_components/hammerjs/hammer.js',
-    production: 'bower_components/hammerjs/hammer.min.js'
   });
 
   return app.toTree();

@@ -6,6 +6,8 @@ export default Component.extend(
   Stylable,
 {
 
+  classNames: ['game-question'],
+
   classNameBindings: ['isHidden'],
 
   styleBindings: ['transform', 'transition'],

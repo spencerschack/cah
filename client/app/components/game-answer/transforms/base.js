@@ -10,12 +10,12 @@ export default Ember.Object.extend(
   Bindings('transform', {prefix: '(', suffix: ')', separator: ' '}),
 {
 
-  @delegateTo('component') answerOrdering,
-  @delegateTo('component') round,
-  @delegateTo('component') submission,
-  @delegateTo('component') element,
-  @delegateTo('round') game,
-  @delegateTo('answerOrdering') membership,
+  @delegateTo('component') answerOrdering: null,
+  @delegateTo('component') round: null,
+  @delegateTo('component') submission: null,
+  @delegateTo('component') element: null,
+  @delegateTo('round') game: null,
+  @delegateTo('answerOrdering') membership: null,
 
   trigger(name, ...args) {
     if(this[name]) this[name](...args);

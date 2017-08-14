@@ -6,6 +6,8 @@ import set from 'ember-metal/set';
 
 export default Component.extend({
 
+  classNames: ['app-intro'],
+
   classNameBindings: ['isLoading'],
 
   store: service(),
