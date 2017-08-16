@@ -63,24 +63,6 @@
   background: black
   color: white
 
-.app-intro-action
-  +medium-weight
-  width: 100%
-  display: block
-  padding-top: 0.7rem
-  padding-bottom: 0.8rem
-  background: $brand-color
-  text-align: center
-  text-decoration: none
-  color: white
-  cursor: pointer
-
-  &:hover
-    background: $brand-hover-color
-
-  &:active
-    background: $brand-active-color
-
 .app-intro-label
   +medium-weight
   display: block
@@ -88,7 +70,21 @@
 
 .app-intro-input
   width: 100%
-  padding: 0 0.5rem
+  padding: 0 0.75rem
   box-sizing: border-box
   margin-bottom: 0.75rem
   +share(padding-top, padding-bottom, 0.75rem)
+  background: darken(white, 5%)
+  border-radius: 0.5rem
+
+.app-intro-action
+  +medium-weight
+  width: 100%
+  display: block
+  padding-top: 0.7rem
+  padding-bottom: 0.8rem
+  background: darken(white, 15%)
+  text-align: center
+  text-decoration: none
+  cursor: pointer
+  border-radius: 0.5rem

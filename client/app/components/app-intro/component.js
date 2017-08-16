@@ -41,11 +41,8 @@ export default Component.extend({
       if(!name) return;
       get(this, 'session').createPlayer({name}).then(() => {
         const game = get(this, 'game');
-        if(game) {
+        if(game)
           this.transitionToGame(game);
-        } else {
-          this.send('start');
-        }
       });
     }
 
